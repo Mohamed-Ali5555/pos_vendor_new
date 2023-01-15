@@ -131,10 +131,10 @@ class IndexController extends Controller
             $price=explode('-',$_GET['price']);
             $price[0]=floor($price[0]);
             $price[1]=ceil($price[1]);
-               dd($price);
+            //    dd($price);
             
-          $products= $products->whereBetween('offer_price',$price)->where('status','active')->paginate(12);
-          dd($products);
+          $products= $products->whereBetween('offer_price',$price)->where('status','active');
+        //   dd($products);
         }
 
 
