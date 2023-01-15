@@ -31,13 +31,36 @@
                         <!-- Currency Dropdown -->
                         <div class="currency-dropdown">
                             <div class="dropdown">
+
+                            @php 
+                            Helper::currency_load();
+                            $currency_code = session('currency_code');
+                            $currency_symbol = session('currency_symbol');
+
+                            if($currency_symbol==""){
+                                $system_default_currency_info = session('system_default_currency_info');
+                                $currency_symbol=$system_default_currency_info->symbol;
+                                $currency_code=$system_default_currency_info->code;
+                            }
+
+                            @endphp
+
+
+
+
                                 <a class="btn btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenu2"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    $ USD
+                                    {{$currency_symbol}}  {{$currency_code}}
                                 </a>
+
+                            
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
-                                    <a class="dropdown-item" href="#">৳ BDT</a>
-                                    <a class="dropdown-item" href="#">€ Euro</a>
+
+                                @foreach (\App\Models\currencie::where('status','active')->get() as $currency )
+                                        <a class="dropdown-item" href="javascript:;" onclick="currency_change('{{$currency['code']}}')" >{{$currency->symbol}}  
+                                        {{\Illuminate\Support\Str::upper($currency->code)}}</a>
+                                @endforeach
+                                
                                 </div>
                             </div>
                         </div>
@@ -78,8 +101,8 @@
                                         <li><a href="index-3.html">Home - 3</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="{{route('shop')}}">Shop</a>
-                              
+                                <li><a href="{{ route('shop') }}">Shop</a>
+
                                 </li>
                                 <li><a href="#">Pages</a>
                                     <div class="megamenu">
@@ -158,10 +181,13 @@
                         <div class="search-area">
                             <div class="search-btn"><i class="icofont-search"></i></div>
                             <!-- Form -->
-                            <div class="search-form">
-                                <input type="search" class="form-control" placeholder="Search">
-                                <input type="submit" class="d-none" value="Send">
-                            </div>
+                            <form action="{{ route('search') }}" method="GET">
+                                <div class="search-form">
+                                    <input type="search" id="search-text" name="query" class="form-control" placeholder="Search">
+                                 <button type="submit" class="btn btn-primary" style="float: right;margin: -50px -129px 0px 0px;">Search</button>
+                                </div>
+
+                            </form>
                         </div>
 
                         <!-- Wishlist -->
@@ -172,7 +198,7 @@
 
                             </a>
                         </div>
-{{-- 
+                        {{-- 
                         <!-- Wishlist -->
                         <div class="wishlist-area">
                             <div class="wishlist--btn"><a href="{{ route('wishlist') }}"> <i
@@ -263,8 +289,7 @@
 </header>
 <!-- Header Area End -->
 @section('scripts')
-
-     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <script>
         $(document).on('click', '.cart_delete_dropdown', function(e) {
@@ -316,5 +341,4 @@
             });
         });
     </script>
-
 @endsection

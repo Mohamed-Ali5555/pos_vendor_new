@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-      @include('frontend.layouts.head')
+    @include('frontend.layouts.head')
 
 
 </head>
@@ -16,33 +16,53 @@
     </div>
     <header class="header_area" id="header-ajax">
 
-           @include('frontend.layouts.header')
-               </header>
+        @include('frontend.layouts.header')
+    </header>
 
-           <div class="container">
-                  <div class="row">
-              <div class="col-md-12">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
                 {{-- @include('backend.layouts.notification') --}}
-              </div>
-            </div></div>
+            </div>
+        </div>
+    </div>
 
-           @yield('content')
-
-
-
-        @include('frontend.layouts.footer')
+    @yield('content')
 
 
-      @include('frontend.layouts.script')
 
-     
+    @include('frontend.layouts.footer')
 
+
+    @include('frontend.layouts.script')
 
 
 
 
+    {{-- // auto complete section  --}}
 
-        
+   <script>
+   function currency_change(currency_code){
+    $.ajax({
+      type:'post',
+      url:"{{route('currency.load')}}",
+      data:{
+        currency_code:currency_code,
+        _token:"{{csrf_token()}}",
+      },
+      success:function(response){
+        if(response['status']){
+          location.reload();
+
+        }else{
+          alert('server error');
+        }
+      }
+    })
+   }
+   </script>
+
+
 
 </body>
 

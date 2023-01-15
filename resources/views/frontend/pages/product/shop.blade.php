@@ -166,7 +166,7 @@
                                             {{-- <div class="range-price">Price: {{Faker\Extension\Helper::minPrice()}} - {{Helper::maxPrice()}}</div> --}}
 
                                             <input style="border:0;width:60%;" type="text" readonly id="amount"
-                                                value=" 
+                                       value=" 
                                        $@if (!empty($_GET['price'])) {{ $price[0] }} @else {{ Helper::minPrice() }} @endif ------
                                         $@if (!empty($_GET['price'])) {{ $price[1] }} @else {{ Helper::maxPrice() }} @endif">
 
@@ -358,4 +358,11 @@
     </section>
 @endsection
 @section('scripts')
+
+  
+    {{-- <script>
+    $(document).ready(function(){
+        if($("#slider-range"))
+    })
+    </script> --}}
 @endsection

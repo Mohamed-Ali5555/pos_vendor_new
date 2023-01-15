@@ -57,3 +57,10 @@ Route::post('compare/move-to-cart',[\App\Http\Controllers\frontend\CompareContro
 /// shop section
 Route::get('shop',[\App\Http\Controllers\frontend\IndexController::class,'shop'])->name('shop');
 Route::post('shop-filter',[\App\Http\Controllers\frontend\IndexController::class,'shopFilter'])->name('shop.filter');
+/// search
+
+Route::get('search',[\App\Http\Controllers\frontend\IndexController::class,'search'])->name('search');
+Route::get('autosearch',[\App\Http\Controllers\frontend\IndexController::class,'autoSearch'])->name('autosearch');
+
+//// currncy change route 
+Route::post('currency_load',[\App\Http\Controllers\CurrencieController::class,'currencyLoad'])->name('currency.load');

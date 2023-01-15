@@ -17,8 +17,9 @@
     <script src="{{asset('frontend/assets/js/wow.min.js')}}"></script>
     <script src="{{asset('frontend/assets/js/active.js')}}"></script>
 
-
-    
+    {{-- // auto complete  --}} 
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  {{-- /// end this  --}}
 
     <script>
      setTimeout(function(){

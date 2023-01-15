@@ -131,10 +131,13 @@ class IndexController extends Controller
             $price=explode('-',$_GET['price']);
             $price[0]=floor($price[0]);
             $price[1]=ceil($price[1]);
-               dd($price);
+            //    dd($price);
             
-          $products= $products->whereBetween('offer_price',$price)->where('status','active')->paginate(12);
-          dd($products);
+        //   $products= $products->whereBetween('offer_price',$price)->where('status','active')->paginate(12);
+        //   $products=$products->whereBetween('offer_price',$price)->where('status','active')->paginate(12);
+          $products =  $products->whereBetween('offer_price',$price)->where('status','active')->paginate(12);
+
+        //   dd($products);
         }
 
 
@@ -184,7 +187,7 @@ class IndexController extends Controller
     
            
            else{
-            $products= $products->where('status','active')->paginate(12);
+            $products= $products->where('status','active');
 
            }
 
@@ -224,11 +227,15 @@ class IndexController extends Controller
     
            
         // price filter
-        $price_range_url="";
-        if(!empty($data['price_range'])){
-            $price_range_url .= '&price=' .$data['price_range'];
-        }
+        // $price_range_url="";
+        // if(!empty($data['price_range'])){
+        //     $price_range_url .= '&price=' .$data['price_range'];
+        // }
 
+        $price_range_url ="";
+        if(!empty($data['price_range'])){
+            $price_range_url .='&price=' .$data['price_range'];
+        }
         //    FILTER BY BRANDS 
 
         $brandUrl = '';
@@ -251,4 +258,37 @@ class IndexController extends Controller
                     return redirect()->route('shop',$catUrl.$sortByUrl.$brandUrl.$sizeUrl.$price_range_url);
 
         } 
+
+
+
+
+        public function autoSearch(Request $request){
+            $query = $request->get('term','');
+            $products = product::where('title','LIKE','%'.$query.'%')->get();
+           
+           $data =array();
+          
+            $data = array();
+            foreach($products as $product){
+                $data[]=array('value'=>$product->title,'id'=>$product->id);
+            }
+            if(count($data)){
+                return $data;
+            }else{
+                return ['value'=>"No Result fount",'id'=>''];
+            }
+
+        }
+
+        /// search function 
+        public function search(Request $request){
+            $query = $request->input('query');
+
+            $products = product::where('title','LIKE','%'.$query.'%')->orderBy('id','DESC')->paginate(20);
+
+            $brands = Brand::where('status','active')->orderBy('title','DESC')->with('products')->get();
+            $cats = Category::where(['status'=>'active','is_parent'=>1])->with('products')->orderBy('title','ASC')->get();
+
+            return view('frontend.pages.product.shop',compact('products','cats','brands'));
+        }
 }
