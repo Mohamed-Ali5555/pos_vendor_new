@@ -23,6 +23,12 @@
     <link rel="stylesheet" href="{{asset('frontend/assets/css/icofont.min.css')}}">
 
 
+
+{{-- ////// auto complete  --}}
+
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+{{-- end this / --}}
     <!-- Style CSS -->
     <link rel="stylesheet" href="{{asset('frontend/assets/css/style.css')}}">
 

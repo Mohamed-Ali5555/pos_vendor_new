@@ -20,6 +20,9 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        $this->call(CurrenciesSeeder::class);
+        $this->call(UserTableSeeder::class);
+
 
          \App\Models\Category::factory(20)->create();
         \App\Models\Brand::factory(10)->create();//this is meen create 10 product of brand or any number you need

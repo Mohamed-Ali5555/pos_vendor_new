@@ -44,8 +44,8 @@
            <p class="brand_name">
                {{ \App\Models\Brand::where('id', $product->brand_id)->value('title') }}</p>
            <a href="#">{{ ucfirst($product->title) }}</a>
-           <h6 class="product-price">{{$product->offer_price}}
-           <small><del class="text-danger">{{$product->price }}</del></small>
+           <h6 class="product-price">{{ Helper::currency_converter($product->offer_price) }}
+               <small><del class="text-danger">{{ Helper::currency_converter($product->price) }}</del></small>
            </h6>
        </div>
    </div>
@@ -174,44 +174,96 @@
 
 
 
- 
-@section('scripts')
-    
-<script>
-    $(document).ready(function(){
-      if ($("#slider-range").length >0){
-          const max_value = parseInt($("#slider-range").data('max')) || 500;
-          const min_value = parseInt($("#slider-range").data('min')) || 0;
-          const currency = $("#slider-range").data('currency') || '';
-          let price_range = min_value+'-'+max_value;
-  
-  
-  
-          if($("#price_range").length > 0 && $("#price_range").val()){
-              price_range = $("#price_range").val().trim();
-          }
-          let price = price_range.split('-');
-  
-          $('#slider-range').slider({
-             range:true,
-             min:min_value,
-             max:max_value,
-             values:price,
-             slide:function(event,ui){
-              $('#amount').val('$'+ui.values[0]+"-"+'$'+ui.values[1]);
-               $('#price_range').val(ui.values[0]+"-"+ui.values[1]);
-  
-             }
-          });
-  
-      }
-    });
-   </script>
+
+   @section('scripts')
 
 
 
 
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
+
+       <script>
+           $(document).ready(function() {
+               var path = "{{ route('autosearch') }}";
+               $('#search-text').autocomplete({
+                   source: function(request, response) {
+                       $.ajax({
+                           url: path,
+                           dataType: "JSON",
+                           data: {
+                               term: request.term
+                           },
+                           success: function(data) {
+                               response(data);
+                           }
+                       });
+
+                   },
+
+                   minLength: 1,
+               });
+           })
+       </script>
+
+
+       <script>
+           $(document).ready(function() {
+               if ($("#slider-range").length > 0) {
+                   const max_value = parseInt($("#slider-range").data('max')) || 500;
+                   const min_value = parseInt($("#slider-range").data('min')) || 0;
+                   const currency = $("#slider-range").data('currency') || '';
+                   let price_range = min_value + '-' + max_value;
+
+
+
+                   if ($("#price_range").length > 0 && $("#price_range").val()) {
+                       price_range = $("#price_range").val().trim();
+                   }
+                   let price = price_range.split('-');
+
+                   $('#slider-range').slider({
+                       range: true,
+                       min: min_value,
+                       max: max_value,
+                       values: price,
+                       slide: function(event, ui) {
+                           $('#amount').val('$' + ui.values[0] + "-" + '$' + ui.values[1]);
+                           $('#price_range').val(ui.values[0] + "-" + ui.values[1]);
+
+                       }
+                   });
+
+               }
+           });
+       </script>
+
+       <script>
+           if ($("#price_range").length > 0 && $("#price_range").val()) {
+               price_range = $("#price_range").val().trim();
+           }
+           let price = price_range.split('-');
+
+           $('#slider-range').slider({
+           range: true,
+           min: min_value,
+           max: max_value,
+           values: price,
+           slide: function(event, ui) {
+               $('#amount').val('$' + ui.values[0] + "-" + '$' + ui.values[1]);
+               $('#price_range').val(ui.values[0] + "-" + ui.values[1]);
+
+           }
+           });
+
+           }
+           });
+       </script>
+       {{-- //////////////////// --}}
+
+
+       <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
        {{-- /////////// add to wishlst //////////// --}}
        <script>
@@ -541,4 +593,4 @@
            })
        </script>
        {{-- /// move to compare page///// --}}
-@endsection
+   @endsection

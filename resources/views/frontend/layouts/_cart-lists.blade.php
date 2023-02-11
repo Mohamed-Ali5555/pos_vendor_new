@@ -10,6 +10,8 @@
           </tr>
       </thead>
       <tbody>
+        @if (\Gloudemans\Shoppingcart\Facades\Cart::instance('shopping')->count() > 0)
+
           @foreach (\Gloudemans\Shoppingcart\Facades\Cart::instance('shopping')->content() as $item)
               <tr>
                   <th scope="row">
@@ -37,6 +39,11 @@
                   <td>${{ $item->subtotal() }}</td>
               </tr>
           @endforeach
+          @else
+          <tr>
+              <td colspan="5" class="text-center">there is no shipping product hear </td>
+          </tr>
 
+      @endif
       </tbody>
   </table>

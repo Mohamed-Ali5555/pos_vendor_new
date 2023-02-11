@@ -12,6 +12,20 @@ class CurrencieController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function currencyLoad(Request $request){
+        session()->put('currency_code',$request->currency_code);
+        // get currency_code from ajax code
+        $currency = currencie::where('code',$request->currency_code)->first();
+        //equel currency_code to code in model currency
+        session()->put('currency_symbol',$currency->symbol);
+        // equel symbol to symbol of model
+        session()->put('currency_exchange_rate',$currency->exchange_rate);
+        $response['status'] = true;  // equel this to ajax code
+        return $response;
+
+
+     }
     public function index()
     {
         $currencys = currencie::orderBy('id','DESC')->get();

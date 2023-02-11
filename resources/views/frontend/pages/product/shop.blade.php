@@ -358,6 +358,9 @@
     </section>
 @endsection
 @section('scripts')
-
-
+    {{-- <script>
+    $(document).ready(function(){
+        if($("#slider-range"))
+    })
+    </script> --}}
 @endsection
