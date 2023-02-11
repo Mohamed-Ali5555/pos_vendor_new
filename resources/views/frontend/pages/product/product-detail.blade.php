@@ -1,6 +1,5 @@
 @extends('frontend.layouts.master')
 @section('content')
-
     <!-- Quick View Modal Area -->
     <div class="modal fade" id="quickview" tabindex="-1" role="dialog" aria-labelledby="quickview" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -215,11 +214,11 @@
                                     value="1">
                             </div>
                             <button type="submit" name="addtocart" value="5"
-                                class="add_to_cart_button_details23 btn btn-primary mt-1 mt-md-0 ml-1 ml-md-3 "
+                                class="add_to_cart_button_details btn btn-primary mt-1 mt-md-0 ml-1 ml-md-3 "
                                 data-quantity="1" {{-- data-size="{{$product->size}}" --}} data-price="{{ $product->offer_price }}"
                                 data-product_id="{{ $product->id }}"
                                 id="add_to_cart_button_details_{{ $product->id }}">
-                                Add to cartddddddddddd</button>
+                                Add to cart</button>
                         </div>
 
                         <!-- Others Info -->
@@ -262,8 +261,10 @@
                                     role="tab">Description</a>
                             </li>
                             <li class="nav-item">
-                                {{-- <a href="#reviews" class="nav-link" data-toggle="tab" role="tab">Reviews <span
-                                        class="text-muted">({{ \App\Models\ProductReview::where('product_id', $product->id)->count() }})</span></a> --}}
+                                <a href="#reviews" class="nav-link" data-toggle="tab" role="tab">Reviews <span
+                                        class="text-muted">
+                                        {{ \App\Models\ProductReview::where('product_id', $product->id)->count() }} </span>
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#addi-info" class="nav-link" data-toggle="tab" role="tab">Additional
@@ -289,70 +290,84 @@
 
 
 
-                                {{-- <div class="submit_a_review_area mt-50">
+                                <div class="submit_a_review_area mt-50">
                                     <h4>Submit A Review</h4>
                                     @auth
+
+
                                         <form action="{{ route('product.review', $product->slug) }}" method="post">
                                             @csrf
                                             <div class="form-group">
                                                 <span>Your Ratings</span>
                                                 <div class="stars">
                                                     <input type="radio" name="rate" class="star-1" id="star-1"
-                                                        value="1">
-                                                    <label class="star-1" for="star-1">1</label>
-                                                    <input type="radio" name="rate" class="star-2" id="star-2"
-                                                        value="2">
-                                                    <label class="star-2" for="star-2">2</label>
-                                                    <input type="radio" name="rate" class="star-3" id="star-3"
-                                                        value="3">
-                                                    <label class="star-3" for="star-3">3</label>
-                                                    <input type="radio" name="rate" class="star-4" id="star-4"
-                                                        value="4">
-                                                    <label class="star-4" for="star-4">4</label>
-                                                    <input type="radio" name="rate" class="star-5" id="star-5"
-                                                        value="5">
-                                                    <label class="star-5" for="star-5">5</label>
-                                                    <span></span>
+                                                    value="1">
+                                                <label class="star-1" for="star-1">1</label>
+                                                <input type="radio" name="rate" class="star-2" id="star-2"
+                                                    value="2">
+                                                <label class="star-2" for="star-2">2</label>
+                                                <input type="radio" name="rate" class="star-3" id="star-3"
+                                                    value="3">
+                                                <label class="star-3" for="star-3">3</label>
+                                                <input type="radio" name="rate" class="star-4" id="star-4"
+                                                    value="4">
+                                                <label class="star-4" for="star-4">4</label>
+                                                <input type="radio" name="rate" class="star-5" id="star-5"
+                                                    value="5">
+                                                <label class="star-5" for="star-5">5</label>
                                                 </div>
                                                 @error('rate')
-                                                    <p class="text-danger">{{ message }}</p>
+                                                    <p class="text-danger">{{ $message }}</p>
                                                 @enderror
                                             </div>
+
                                             <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                                            <input type="hidden" name="product_id" value="{{ $product->id }}" <div
-                                                class="form-group">
-                                            <label for="options">Reason for your rating</label>
-                                            <select class="form-control small right py-0 w-100" id="options"
+                                            <input hidden name="product_id" value="{{ $product->id }}" />
+                                            <div class="form-group">
+                                                <label for="options">Reason for your rating</label>
+
+                                                <select class="form-control small right py-0 w-100" id="options"
                                                 name="reason">
-                                                <option value="quality" {{ old('reason') == 'quality' ? 'selected' : '' }}>
-                                                    Quality</option>
-                                                <option value="value" {{ old('reason') == 'value' ? 'selected' : '' }}>Value
-                                                </option>
-                                                <option value="design" {{ old('reason') == 'design' ? 'selected' : '' }}>
-                                                    Design
-                                                </option>
-                                                <option value="price" {{ old('reason') == 'price' ? 'selected' : '' }}>Price
-                                                </option>
-                                                <option value="others" {{ old('reason') == 'others' ? 'selected' : '' }}>
-                                                    Others
-                                                </option>
-                                            </select>
 
-                                            @error('reason')
-                                                <p class="text-danger">{{ message }}</p>
-                                            @enderror
+                                                    <option value="quality"
+                                                        {{ old('reason') == 'quality' ? 'selected' : '' }}>
+                                                        quality
+                                                    </option>
 
+                                                    <option value="value" {{ old('reason') == 'value' ? 'selected' : '' }}>
+                                                        value
+                                                    </option>
 
+                                                    <option value="design" {{ old('reason') == 'design' ? 'selected' : '' }}>
+                                                        design
+                                                    </option>
+
+                                                    <option value="price" {{ old('reason') == 'price' ? 'selected' : '' }}>
+                                                        price
+                                                    </option>
+
+                                                    <option value="others" {{ old('reason') == 'others' ? 'selected' : '' }}>
+                                                        others
+                                                    </option>
+                                                </selsct>
+
+                                                @error('reason')
+                                                    <p class="text-danger">{{ $message }}</p>
+                                                @enderror
+                                            </div>
                                             <div class="form-group">
                                                 <label for="comments">Comments</label>
                                                 <textarea class="form-control" id="comments" name="review" rows="5" data-max-length="150"></textarea>
 
                                                 @error('review')
-                                                    <p class="text-danger">{{ message }}</p>
+                                                    <p class="text-danger">{{ $message }}</p>
                                                 @enderror
+
 
                                             </div>
                                             <button type="submit" class="btn btn-primary">Submit Review</button>
+
+
                                         </form>
                                     @else
                                         <p class="py-5"> You need to login for writing review. <a
@@ -361,37 +376,40 @@
 
 
 
-                                    </div> --}}
+                                    </div>
 
 
 
-                                    {{-- <div class="reviews_area">
-                                        @php
-                                            $reviews = \App\Models\ProductReview::where('product_id', $product->id)
-                                                ->latest()
-                                                ->paginate(3);
-                                        @endphp
+                                    <div class="reviews_area">
+                                      @php
+                                          $reviews = \App\Models\ProductReview::where('product_id',$product->id)->latest()->paginate(3);
+                                      @endphp
                                         <ul class="mt-5">
                                             <li>
                                                 @if (count($reviews) > 0)
                                                     @foreach ($reviews as $review)
                                                         <div class="single_user_review mb-15">
                                                             <div class="review-rating">
-                                                                @for ($i = 0; $i < 5; $i++)
-                                                                    @if ($review->rate > $i)
-                                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                                    @else
-                                                                        <i class="far fa-star" aria-hidden="true"></i>
-                                                                    @endif
-                                                                @endfor
+                                                               @for ($i =0; $i<5; $i++)
+                                                               @if ($review->rate > $i)  
+                                                               {{-- IF RATE > 0 --}}
+                                                               <i class="fa fa-star" aria-hidden="true"></i>
+
+                                                               @else
+                                                               <i class="far fa-star" aria-hidden="true"></i>
+                                                           @endif
+
+                                                               @endfor
 
                                                                 <span>for {{ $review->reason }}</span>
                                                             </div>
                                                             <div class="review-details">
-                                                                <p>by <a
-                                                                        href="#">{{ \App\Models\User::where('id', $review->user_id)->value('full_name') }}</a>
+                                                                <p>by 
+                                                                    <a href="#"> {{\App\Models\User::where('id',$review->user_id)->value('full_name')}}</a>
                                                                     on
-                                                                    <span>{{ \Carbon\Carbon::parse($review->created_at)->format('M, d Y') }}</span>
+                                                                    <span>{{\Carbon\Carbon::parse($review->created_at)->format('M,d,Y')}}</span>
+                                                                    {{-- <span>{{ \Carbon\Carbon::parse($review->created_at)->format('M, d Y') }}</span> --}}
+
                                                                 </p>
                                                                 <p>{{ $review->review }}</p>
                                                             </div>
@@ -399,11 +417,12 @@
                                                         </div>
                                                     @endforeach
                                                 @endif
-                                                {{ $reviews->links('vendor.pagination.custom') }}
+                                                {{-- {{ $reviews->links('vendor.pagination.custom') }} --}}
 
                                             </li>
                                         </ul>
-                                    </div> --}}
+                                    </div>
+
 
 
                                 </div>
@@ -508,26 +527,84 @@
             </div>
         </section>
         <!-- Related Products Area -->
-
     @endsection
     {{-- //script of add to cart and change quantity --}}
     @section('scripts')
+    
+
         <script>
-            $('.qty-text').change('key up', function() {
-                var id = $(this).data('id');
+            $('.qty-text').change('key up',function(){
+                var id = $(this).data('id');  // product id
                 var spinner = $(this),
-                    input = spinner.closest('div.quantity').find('input[type="number"]');
-                var newVal = parseFloat(input.val());
-                $('#add_to_cart_button_details_' + id).attr('data-quantity', newVal);
-                {{-- alert(newVal); --}}
+                input = spinner.closest('div.quantity').find('input[type="number"]');
+                var newval = parseFloat(input.val());
+                // now we get new value
+                // and we should put it in product quantity
+                $('#add_to_cart_button_details_' +id).attr('data-quantity',newval);
+                // alert(newval);
+
+            })
+        </script>
+
+        <script>            
+        // $(document).on('click', '.add_to_cart_button_details23', function(e) {
+
+            $(document).on('click','.add_to_cart_button_details',function(e){
+                e.preventDefault();
+                var product_id = $(this).data('product_id');
+                var quantity = $(this).data('quantity');
+                var price = $(this).data('price');
+                var size = $(this).data('size');
+
+                var token = "{{csrf_token()}}";
+
+
+                $.ajax({
+                    url:"{{route('cart.store')}}",
+                    type:"post",
+                    dataType:"json",
+
+                    data:{
+                        product_id:product_id,
+                        product_qty:quantity,
+                        product_price:price,
+                        product_size:size,
+                        _token:token,
+                        _method:"post",
+                    },
+                    beforeSend:function(){
+                        $('#add_to_cart_button_details' + product_id).html(
+                            '<i class="fa fa-spinner fa-spin"></i> loading...'
+                        )
+                    },
+                    complete:function(){
+                        $('#add_to_cart_button_details_' + product_id).html(
+                            '<i class="fa fa-cart-plus"></i>  Add to cart...');
+                    },
+                    success:function(data){
+                        console.log(data);
+                        ///////////this make refresh when you add product
+                        $('body #header-ajax').html(data['header']);
+                        ////////////////
+                        if (data['status']) {
+                            swal({
+                                title: "Good job!",
+                                text: data['message'],
+                                icon: "success",
+                                button: "Aww yiss!",
+                            });
+                        }
+                    }
+
+                });
             });
         </script>
 
 
 
-{{-- //////////////////////////////// Add to cart in product detail ///////////////////////////////////////// --}}
-      
-{{-- //////////////////////////////// Add to cart in product detail ///////////////////////////////////////// --}}
+        {{-- //////////////////////////////// Add to cart in product detail ///////////////////////////////////////// --}}
+
+        {{-- //////////////////////////////// Add to cart in product detail ///////////////////////////////////////// --}}
     @endsection
 
 
@@ -569,31 +646,4 @@
                 width: 100%;
             }
         </style>
-
-@endsection
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @endsection

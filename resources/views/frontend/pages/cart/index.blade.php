@@ -35,12 +35,12 @@
                         <p>Enter your coupon code here &amp; get awesome discounts!</p>
                         <!-- Form -->
                         <div class="coupon-form">
-                            {{-- <form action="{{ route('coupon.add') }}" id="coupon-form" method="post">
+                            <form action="{{ route('coupon.add') }}" id="coupon-form" method="post">
                                 @csrf
                                 <input type="text" class="form-control" id="code" name="code"
                                     placeholder="Enter Your Coupon Code">
                                 <button type="submit" class="coupon-btn btn btn-primary">Apply Coupon</button>
-                            </form> --}}
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -70,13 +70,21 @@
                                         <td>Total</td>
                                         @if (\Illuminate\Support\Facades\Session::has('coupon'))
                                             <td>$
-                                                {{ number_format((float) str_replace(',', '', \Gloudemans\Shoppingcart\Facades\Cart::subtotal()) - \Illuminate\Support\Facades\Session::get('coupon')['value'], 2) }}
+                                               
+
+                                                {{number_format((float) str_replace(',','',\Gloudemans\Shoppingcart\Facades\Cart::subtotal()) -
+
+                                                 \Illuminate\Support\Facades\Session::get('coupon')['value'],2)
+                                                }}
                                             </td>
                                         @endif
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
+                    {{-- @if(session('user')) --}}
+                        <a href="{{ route('checkout1') }}" class="btn btn-primary d-block">Proceed To Checkout</a>
+{{-- @endif --}}
                         {{-- <a href="{{route('checkout1')}}" class="btn btn-primary d-block">Proceed To Checkout</a> --}}
                     </div>
                 </div>
@@ -87,6 +95,30 @@
 @endsection
 @section('scripts')
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
+
+
+    {{-- <script>
+        $(document).on('click', '.coupon-btn', function(e) {
+            e.preventDefault();
+            var code = $('#code').val();
+            alert(code);
+            $('.coupon-btn').html(' <i class ="fas fa-spinner fa-spin" > </i> Applying....');
+            $('#coupon-form').submit();
+        });
+    </script> --}}
+
+    <script>
+        $(document).on('click','.coupon-btn',function(e){
+            e.preventDefault();
+            var code = $('#code').val();
+            alert(code);
+            $('.coupon-btn').html(' <i class ="fas fa-spinner fa-spin" > </i> Applying....');
+            $('#coupon-form').submit();
+        })
+    </script>
 
 
 
@@ -108,10 +140,14 @@
                     _method: "post",
                 },
                 success: function(data) {
-                    $('body #header-ajax').html(data['header']);
-                    console.log(data);
+                   console.log(data);
+                    
+                    $('body #header-ajax').html('header');
 
                     if (data['status']) {
+                        $('body #cart_counter').html(data['cart_count']);
+                         $('body #header-ajax').html(data['header']);
+
                         swal({
                             title: "Good job!",
                             text: data['message'],

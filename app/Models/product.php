@@ -16,6 +16,9 @@ class product extends Model
         return $this->belongsTo('App\Models\Brand');
     }
  
+    public function product_reviews(){
+        return $this->belongsTo('App\Models\ProductReview','product_id','id');
+    }
 
     public function category(){
         return $this->belongsTo('App\Models\Category','cat_id','id');

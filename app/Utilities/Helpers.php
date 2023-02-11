@@ -17,7 +17,7 @@ class Helper{
     }
 
     //    //currency converter
-    public function currency_converter($amount){
+    public static function currency_converter($amount){
         return format_price(convert_price($amount));
             
     }

@@ -32,35 +32,36 @@
                         <div class="currency-dropdown">
                             <div class="dropdown">
 
-                            @php 
-                            Helper::currency_load();
-                            $currency_code = session('currency_code');
-                            $currency_symbol = session('currency_symbol');
-
-                            if($currency_symbol==""){
-                                $system_default_currency_info = session('system_default_currency_info');
-                                $currency_symbol=$system_default_currency_info->symbol;
-                                $currency_code=$system_default_currency_info->code;
-                            }
-
-                            @endphp
+                                @php
+                                    Helper::currency_load();
+                                    $currency_code = session('currency_code');
+                                    $currency_symbol = session('currency_symbol');
+                                    
+                                    if ($currency_symbol == '') {
+                                        $system_default_currency_info = session('system_default_currency_info');
+                                        $currency_symbol = $system_default_currency_info->symbol;
+                                        $currency_code = $system_default_currency_info->code;
+                                    }
+                                    
+                                @endphp
 
 
 
 
                                 <a class="btn btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenu2"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{$currency_symbol}}  {{$currency_code}}
+                                    {{ $currency_symbol }} {{ $currency_code }}
                                 </a>
 
-                            
+
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
 
-                                @foreach (\App\Models\currencie::where('status','active')->get() as $currency )
-                                        <a class="dropdown-item" href="javascript:;" onclick="currency_change('{{$currency['code']}}')" >{{$currency->symbol}}  
-                                        {{\Illuminate\Support\Str::upper($currency->code)}}</a>
-                                @endforeach
-                                
+                                    @foreach (\App\Models\currencie::where('status', 'active')->get() as $currency)
+                                        <a class="dropdown-item" href="javascript:;"
+                                            onclick="currency_change('{{ $currency['code'] }}')">{{ $currency->symbol }}
+                                            {{ \Illuminate\Support\Str::upper($currency->code) }}</a>
+                                    @endforeach
+
                                 </div>
                             </div>
                         </div>
@@ -95,11 +96,11 @@
                         <div class="classynav">
                             <ul>
                                 <li><a href="#">Home</a>
-                                    <ul class="dropdown">
-                                        <li><a href="index-1.html">Home - 1</a></li>
-                                        <li><a href="index-2.html">Home - 2</a></li>
-                                        <li><a href="index-3.html">Home - 3</a></li>
-                                    </ul>
+
+                                </li>
+                                </li>
+                                <li><a href="{{ route('about_us') }}">About Us</a>
+
                                 </li>
                                 <li><a href="{{ route('shop') }}">Shop</a>
 
@@ -183,8 +184,10 @@
                             <!-- Form -->
                             <form action="{{ route('search') }}" method="GET">
                                 <div class="search-form">
-                                    <input type="search" id="search-text" name="query" class="form-control" placeholder="Search">
-                                 <button type="submit" class="btn btn-primary" style="float: right;margin: -50px -129px 0px 0px;">Search</button>
+                                    <input type="search" id="search-text" name="query" class="form-control"
+                                        placeholder="Search">
+                                    <button type="submit" class="btn btn-primary"
+                                        style="float: right;margin: -50px -129px 0px 0px;">Search</button>
                                 </div>
 
                             </form>
@@ -241,8 +244,9 @@
                                                     </p>
                                                 </div>
                                             </div>
-                                            <span class="dropdown-product-remove" data-id="{{ $item->rowId }}"><i
-                                                    class="icofont-bin"></i></span>
+                                            <a href="javascript:void(0);"
+                                                class=" cart_delete_dropdown dropdown-product-remove "
+                                                data-id="{{ $item->rowId }}"><i class="icofont-bin"></i> df</a>
                                         </li>
                                     @endforeach
                                 </ul>
@@ -263,7 +267,7 @@
                                 <div class="cart-box">
                                     <a href="{{ route('cart') }}" class="btn btn-success btn-sm">cart</a>
 
-                                    <a href="checkout-1.html" class="btn btn-primary d-block">Checkout</a>
+                                    <a href="{{ route('checkout1') }}" class="btn btn-primary d-block">Checkout</a>
                                 </div>
                             </div>
                         </div>
@@ -274,11 +278,20 @@
                                 <img src="img/bg-img/user.jpg" alt="">
                             </div>
                             <ul class="user-meta-dropdown">
-                                <li class="user-title"><span>Hello,</span> Lim Sarah</li>
-                                <li><a href="my-account.html">My Account</a></li>
-                                <li><a href="order-list.html">Orders List</a></li>
-                                <li><a href="wishlist.html">Wishlist</a></li>
-                                <li><a href="login.html"><i class="icofont-logout"></i> Logout</a></li>
+                                @auth
+
+
+                                    <li class="user-title"><span>Hello,</span> {{ auth()->user()->full_name }}</li>
+                                    <li><a href="{{ route('user.account') }}">My Account</a></li>
+                                    <li><a href="order-list.html">Orders List</a></li>
+                                    <li><a href="wishlist.html">Wishlist</a></li>
+                                    <li><a href="{{ route('user.logout') }}"><i class="icofont-logout"></i> Logout</a>
+                                    </li>
+                                @else
+                                    <li><a href="{{ route('user.auth') }}">Login & Register</a></li>
+
+                                @endauth
+
                             </ul>
                         </div>
                     </div>
@@ -291,11 +304,12 @@
 @section('scripts')
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+    {{-- /// DELETE PRODUCT CART FROM DROPDOWN LIST --}}
     <script>
-        $(document).on('click', '.cart_delete_dropdown', function(e) {
-            e.preventDefault();
-            var rowId = $(this).data('id');
-            {{-- alert(rowId); --}}
+        $('.cart_delete_dropdown').on('click', function() {
+
+            var cart_id = $(this).data('id');
+            alert(cart_id);
 
             var token = "{{ csrf_token() }}";
             {{-- var path=; --}}
@@ -341,4 +355,5 @@
             });
         });
     </script>
+    {{-- /// DELETE PRODUCT CART FROM DROPDOWN LIST --}}
 @endsection

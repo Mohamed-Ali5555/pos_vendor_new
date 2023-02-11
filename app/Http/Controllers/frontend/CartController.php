@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\product;
 use Illuminate\Support\Facades\DB;
+use App\Models\Coupon;
+use Illuminate\Support\Facades\Session ;
+
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CartController extends Controller
@@ -62,26 +65,32 @@ class CartController extends Controller
         $productQuantity= $request->input('productQuantity'); // stock
 
         if($request_quantity>$productQuantity){
-            $message="we currently do not have enough items in stock";
+            $response['message'] ="we currently do not have enough items in stock";
             $response['status'] = false;
         }elseif($request_quantity<1){
-            $message="you can not add less than 1 quantity";
+            $response['message'] ="you can not add less than 1 quantity";
             $response['status'] = false;
         }else{
             Cart::instance('shopping')->update($rowId,$request_quantity);
+            $response['message'] ="Quantity was updated successfully";
+
             $response['status'] = true;
             $response['total'] = Cart::subtotal();
             $response['cart_count']=Cart::instance('shopping')->count();
 
-        } if($request->ajax()){
+        } 
+
+        
+        if($request->ajax()){
             $header=view('frontend.layouts.header')->render();
             $cart_list=view('frontend.layouts._cart-lists')->render();
     
             $response['header']=$header;
             $response['cart_list']=$cart_list;
     
-            $response['message']=$message;
-    
+            // $response['message']=$message;
+            $response['cart_count']=Cart::instance('shopping')->count();
+
         }
 
         return $response;
@@ -102,5 +111,31 @@ class CartController extends Controller
         }
         return json_encode($response);
 
+    }
+
+
+    public function couponAdd(Request $request){
+        $code = $request->input('code');
+        $coupon = coupon::where('code',$code)->first();
+        if(!$coupon){
+            return back()->with('error','Invalid coupon code , please enter valid coupon code');
+
+        }
+  
+           if($coupon){
+            $total_price = (float)str_replace(',','', Cart::instance('shopping')->subtotal());
+            // return $total_price;
+            session()->put('coupon',[
+                'id'=>$request->id,
+                'code'=>$request->code, // we store in session name => coupon not in table migration but in session 
+                'value'=>$coupon->discount($total_price), //discount is a function in coupon model
+            ]);
+            // Cart::instance('shopping')->destroy();
+            // Session::forget('coupon');
+            // Cart::instance('shopping')->destroy();
+
+            return back()->with('success','Coupon Applied successfuly');
+            
+           }
     }
 }
