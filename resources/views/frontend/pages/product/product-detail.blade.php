@@ -149,8 +149,8 @@
                             <i class="fa fa-star" aria-hidden="true"></i>
                             <span class="text-muted">(8 Reviews)</span>
                         </div>
-                        <h4 class="price mb-4">${{ number_format($product->offer_price, 2) }}
-                            <span>${{ number_format($product->price, 2) }}</span>
+                        <h4 class="price mb-4">${{ Helper::currency_converter($product->offer_price) }} 
+                            <span>${{ Helper::currency_converter($product->price) }}</span>
                         </h4>
 
                         <!-- Overview -->

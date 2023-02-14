@@ -43,3 +43,6 @@ Route::group(['prefix'=>'admin','middleware'=>'auth:admin'],function(){
   Route::post('currencie_status',[\App\Http\Controllers\CurrencieController::class,'currencieStatus'])->name('currencie.status');
 
 });
+Route::group(['prefix' => 'filemanager', 'middleware' => ['web']], function () {
+  \UniSharp\LaravelFilemanager\Lfm::routes();
+});

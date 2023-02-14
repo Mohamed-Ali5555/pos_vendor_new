@@ -200,16 +200,16 @@ class ProductController extends Controller
     public function addProductAttribute(Request $request,$id){
 
         
-        $validated = $request->validate([
+        // $validated = $request->validate([
          
-            'original_price'=>'required|numeric',
-            'offer_price'=>'required|numeric',
-            'size_guide'=>'nullable',
-            'product_id'=>'required|exists:products,id',
-            'size'=>'required|numeric',
+        //     'original_price'=>'required|numeric',
+        //     'offer_price'=>'required|numeric',
+        //     'size_guide'=>'nullable',
+        //     'product_id'=>'required|exists:products,id',
+        //     'size'=>'required',
 
 
-        ]);
+        // ]);
         // $data=$request->all();
         // return $request->all();
         $original_price = $request->original_price;

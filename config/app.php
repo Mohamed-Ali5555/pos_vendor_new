@@ -215,6 +215,8 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
     'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
+    // 'Image' => Intervention\Image\Facades\Image::class,
+
     ])->toArray(),
 
 ];

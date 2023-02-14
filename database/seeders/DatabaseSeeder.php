@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $this->call(AdminSeeder::class);
+        $this->call(CurrenciesSeeder::class);
+        $this->call(UserTableSeeder::class);
 
 
          \App\Models\Category::factory(20)->create();

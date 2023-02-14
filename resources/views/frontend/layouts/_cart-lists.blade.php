@@ -25,6 +25,8 @@
                           {{ $item->name }}</a>
                   </td>
                   <td>${{ $item->price }}</td>
+                                    <td>${{ $item->size }}dd</td>
+
                   <td>
                       <div class="quantity">
                           <input type="number" class="qty-text" data-id="{{ $item->rowId }}"
