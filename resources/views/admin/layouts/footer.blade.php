@@ -8,4 +8,10 @@
 <script src="{{asset('backend/assets/bundles/mainscripts.bundle.js')}}"></script>
 <script src="{{asset('backend/assets/js/index.js')}}"></script>
 
+
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+{{-- //buton toggle  --}}
+<script src="{{asset('backend/assets/vendor/switch-button-bootstrap/src/bootstrap-switch-button.js')}}"></script>
+
+
 @yield('scripts')

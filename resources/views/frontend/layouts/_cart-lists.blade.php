@@ -5,6 +5,8 @@
               <th scope="col">Image</th>
               <th scope="col">Product</th>
               <th scope="col">Unit Price</th>
+                            <th scope="col">size</th>
+
               <th scope="col">Quantity</th>
               <th scope="col">Total</th>
           </tr>
@@ -24,7 +26,9 @@
                       <a href="{{ route('product.detail', $item->model->slug) }}">
                           {{ $item->name }}</a>
                   </td>
-                  <td>${{ $item->price }}</td>
+                  <td>{{$item->price }}</td>
+                                    <td>{{ $item->options->size }}</td>
+
                   <td>
                       <div class="quantity">
                           <input type="number" class="qty-text" data-id="{{ $item->rowId }}"

@@ -17,4 +17,9 @@
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="{{asset('backend/assets/css/main.css')}}">
     <link rel="stylesheet" href="{{asset('backend/assets/css/color_skins.css')}}">
+
+{{-- button toggle  --}}
+<link rel="stylesheet" href="{{asset('backend/assets/vendor/switch-button-bootstrap/css/bootstrap-switch-button.css')}}">
+
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 </head>

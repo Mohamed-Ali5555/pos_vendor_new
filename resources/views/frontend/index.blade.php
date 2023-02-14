@@ -185,7 +185,8 @@
                                 <div class="product_description">
                                     <!-- Add to cart -->
                                     <div class="product_add_to_cart">
-                                        <a href="javascript:void(0);" data-quantity="1"  data-price="{{ $product->offer_price }}"
+                                        <a href="javascript:void(0);
+                                        " data-quantity="1"  data-price="{{ $product->offer_price }}"
                                             data-product-id="{{ $product->id }}" class="add_to_cart"
                                             id="add_to_cart{{ $product->id }}"><i class="icofont-shopping-cart"></i>
                                             Add to Cart</a>

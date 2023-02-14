@@ -149,8 +149,8 @@
                             <i class="fa fa-star" aria-hidden="true"></i>
                             <span class="text-muted">(8 Reviews)</span>
                         </div>
-                        <h4 class="price mb-4">${{ number_format($product->offer_price, 2) }}
-                            <span>${{ number_format($product->price, 2) }}</span>
+                        <h4 class="price mb-4">${{ Helper::currency_converter($product->offer_price) }} 
+                            <span>${{ Helper::currency_converter($product->price) }}</span>
                         </h4>
 
                         <!-- Overview -->
@@ -198,7 +198,9 @@
                                 @php
                                     $product_Attr = \App\Models\productAttribute::where('product_id', $product->id)->get();
                                 @endphp
-                                <select name="size" id="">
+                                <select name="size" id="select_size">
+                                     <option value="{{ $product->size }}" selected>{{ $product->size }}</option>
+
                                     @foreach ($product_Attr as $size)
                                         <option value="{{ $size->size }}">{{ $size->size }}</option>
                                     @endforeach
@@ -215,7 +217,7 @@
                             </div>
                             <button type="submit" name="addtocart" value="5"
                                 class="add_to_cart_button_details btn btn-primary mt-1 mt-md-0 ml-1 ml-md-3 "
-                                data-quantity="1" {{-- data-size="{{$product->size}}" --}} data-price="{{ $product->offer_price }}"
+                                data-quantity="1" data-size="{{$product->size}}" data-price="{{ $product->offer_price }}"
                                 data-product_id="{{ $product->id }}"
                                 id="add_to_cart_button_details_{{ $product->id }}">
                                 Add to cart</button>
@@ -533,6 +535,18 @@
     
 
         <script>
+            
+        $('#select_size').on('change', function() {
+            var responseId = $(this).val();
+            var product_id = $('.add_to_cart_button_details').data('product_id');
+
+
+               $('#add_to_cart_button_details_'+product_id).attr('data-size',responseId);
+    
+});
+        </script>
+
+            <script>
             $('.qty-text').change('key up',function(){
                 var id = $(this).data('id');  // product id
                 var spinner = $(this),
@@ -545,6 +559,7 @@
 
             })
         </script>
+
 
         <script>            
         // $(document).on('click', '.add_to_cart_button_details23', function(e) {

@@ -11,9 +11,9 @@ Route::group(['prefix'=>'admin','middleware'=>'guest:admin'],function(){
 
 
 Route::group(['prefix'=>'admin','middleware'=>'auth:admin'],function(){
-  //   Route::get('logout',function(){
-  //     auth()->logout();
-  // });
+    Route::get('logout',function(){
+      auth()->logout();
+  });
 
   Route::get('/',[\App\Http\Controllers\Admin\AdminController::class,'index'])->name('admin');
 
@@ -42,4 +42,7 @@ Route::group(['prefix'=>'admin','middleware'=>'auth:admin'],function(){
   Route::resource('currencie',\App\Http\Controllers\CurrencieController::class);
   Route::post('currencie_status',[\App\Http\Controllers\CurrencieController::class,'currencieStatus'])->name('currencie.status');
 
+});
+Route::group(['prefix' => 'filemanager', 'middleware' => ['web','auth:admin']], function () {
+  \UniSharp\LaravelFilemanager\Lfm::routes();
 });

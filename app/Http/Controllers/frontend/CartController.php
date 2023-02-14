@@ -18,11 +18,15 @@ class CartController extends Controller
     }
 
     public function cartStore(Request $request){
+        // return $request->all();
         $product_id = $request->input('product_id');
         $product_qty = $request->input('product_qty');
     //    $product = DB::table('products')->where('id',$product_id)->get()->toArray();//section_id = id =>that is come from rote when you pres on it and pluck product_name with id 
 
         $product = product::getProductByCart($product_id);
+
+        $size = $request->input('product_size');
+        // return $size;
 
         
     //    return $product;
@@ -34,9 +38,9 @@ class CartController extends Controller
         foreach(Cart::instance('shopping')->content() as $item){
             $cart_array[] = $item->id;
         }
-        $result = Cart::instance('shopping')->add($product_id,$product[0]['title'],$product_qty,$price)->associate('App\Models\product');
+        $result = Cart::instance('shopping')
+        ->add($product_id,$product[0]['title'],$product_qty,$price, ['size' => $size])->associate('App\Models\product');
 
-    //    $result =  Cart::instance('shopping')->add($product_id,$product[0]['title'],$product_qty,$price)->associate('App\Models\product');
 
         if($result){
             $response['status'] = true;
