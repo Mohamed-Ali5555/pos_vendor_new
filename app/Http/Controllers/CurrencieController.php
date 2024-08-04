@@ -73,6 +73,8 @@ class CurrencieController extends Controller
 
             'status'=>'nullable|in:active,inactive',
 
+        ],[
+            'name.required'=>'الاسم مطلوب',
         ]);
         $data=$request->all();
         $new=Currencie::create($data);

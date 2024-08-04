@@ -25,7 +25,7 @@
                         <div class="table-responsive" id="wishlist_list">
 
                             @include('frontend.layouts._wishlist')
-                            
+
 
                         </div>
                     </div>
@@ -37,4 +37,3 @@
     </div>
     <!-- Wishlist Table Area -->
 @endsection
-

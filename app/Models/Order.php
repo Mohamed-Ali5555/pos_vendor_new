@@ -15,10 +15,13 @@ class Order extends Model
          *
          * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
          */
-        public function products(): BelongsToMany
-        {
-            return $this->belongsToMany(Product::class, 'product_orders')->withPivot('quantity');
-        } 
+        // public function products(): BelongsToMany
+        // {
+        //     return $this->belongsToMany(Product::class, 'product_orders')->withPivot('quantity');
+        // } 
      
+        public function products(){
+            return $this->belongsToMany(Product::class,'product_orders')->withPivot('quantity');
+        }
 
 }

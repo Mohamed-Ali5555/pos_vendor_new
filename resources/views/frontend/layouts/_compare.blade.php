@@ -101,8 +101,8 @@
 
 
 
-                                <a href="javascript:void(0);" data-id="{{ $item->rowId }}" id="delete_compare"
-                                    class="mb-1 remove_from_compare delete_compare">
+                                <a href="javascript:void(0);" data-id="{{ $item->rowId }}" id=""
+                                    class="mb-1  delete_compare">
                                     <i class="icofont-close"></i></a>
                             </td>
                         @endforeach
@@ -118,6 +118,7 @@
 
         @section('scripts')
             <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+           {{-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> --}}
 
 
             {{-- ///move to wishlist --}}
@@ -175,59 +176,7 @@
                 });
             </script>
             {{-- ///move to wishlist --}}
-            {{-- //// delete compare --}}
-            <script>
-                $('.delete_compare').on('click', function() {
-                    var rowId = $(this).data('id');
-
-                    var token = "{{ csrf_token() }}";
-                    {{-- alert(rowId); --}}
-
-                    $.ajax({
-                        url: "{{ route('compare.delete') }}",
-                        type: "POST",
-
-                        data: {
-                            _token: token,
-                            rowId: rowId,
-
-                        },
-
-
-                        success: function(data) {
-                            if (data['status']) {
-                                $('body #cart_counter').html(data['cart_count']);
-                                $('body #wishlist_list').html(data['wishlist_list']);
-                                $('body #compare').html(data['compare_list']);
-                                $('body #header-ajax').html(data['header']);
-
-
-                                swal({
-                                    title: "Good job!",
-                                    text: data['message'],
-                                    icon: "success",
-                                    button: "Aww yiss!",
-                                });
-
-                            } else {
-                                swal({
-                                    title: "error",
-                                    text: "someting went wrong",
-                                    icon: "error",
-                                    button: "Aww yiss!",
-                                });
-
-                            }
-                        },
-                        error: function(err) {
-                            alert('vgggggg');
-                        }
-
-                    });
-
-                });
-            </script>
-            {{-- //// delete compare --}}
+           
 
             {{-- //// move to cart --}}
             <script>
@@ -266,13 +215,15 @@
                                 $('body #compare').html(data['compare_list']);
                                 $('body #header-ajax').html(data['header']);
 
-
                                 swal({
-                                    title: "Good job!",
-                                    text: data['message'],
-                                    icon: "success",
-                                    button: "Aww yiss!",
-                                });
+                                title: "Good job!",
+                                text: data['message'],
+                                icon: "success",
+                                button: "Aww yiss!",
+                            }).then(() => {
+                                // Refresh the page after the user closes the success message
+                                window.location.reload();
+                            });
 
                             } else {
                                 swal({

@@ -19,6 +19,18 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, ...$guards)
     {
+        // if(auth('web')->check()){
+        //     return redirect (RouteServiceProvider::HOME);
+        // }
+
+        // // if(auth('admin')->check()){
+        // //     return redirect (RouteServiceProvider::HOME);
+        // // }
+
+        // // return $next($request);
+        // return $next($request);
+
+
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {
@@ -27,10 +39,14 @@ class RedirectIfAuthenticated
                 if($request->is('admin') || $request->is('admin/*')){
                     //return backend
                     return redirect(RouteServiceProvider::Admin);
-                }else{
-                    //return frontend
-                    return redirect(RouteServiceProvider::HOME); // if there is frontend
-                    // return redirect(RouteServiceProvider::Employ);
+                }
+                elseif($request->is('seller') || $request->is('seller/*')){
+                    // return 'frontend';
+                    // return redirect(RouteServiceProvider::HOME); // if there is frontend
+                    return redirect(RouteServiceProvider::Seller);
+                }
+                else{
+                    return redirect(RouteServiceProvider::HOME);
                 }
             }
         }

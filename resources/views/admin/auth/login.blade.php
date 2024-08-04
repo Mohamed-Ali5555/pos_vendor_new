@@ -1,48 +1,67 @@
-<x-guest-layout>
-    <x-jet-authentication-card>
-        <x-slot name="logo">
-            <x-jet-authentication-card-logo />
-        </x-slot>
 
-        <x-jet-validation-errors class="mb-4" />
+<!doctype html>
+<html lang="en">
 
-        @if (session('status'))
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ session('status') }}
-            </div>
-        @endif
+<head>
+<title> Login page admin  </title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="description" content="Lucid Bootstrap 4.1.1 Admin Template">
+<meta name="author" content="Mohamed Ali">
 
-        <form method="POST" action="{{ route('admin.login') }}">
-            @csrf
+<link rel="icon" href="{{get_setting('favicon')}}" type="image/x-icon">
+<!-- VENDOR CSS -->
+<link rel="stylesheet" href="{{asset('backend/assets/vendor/bootstrap/css/bootstrap.min.css')}}">
+<link rel="stylesheet" href="{{asset('backend/assets/vendor/font-awesome/css/font-awesome.min.css')}}">
 
-            <div>
-                <x-jet-label for="email" value="{{ __('Email') }}" />
-                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"  autofocus />
-            </div>
+<!-- MAIN CSS -->
+<link rel="stylesheet" href="{{asset('backend/assets/css/main.css')}}">
+<link rel="stylesheet" href="{{asset('backend/assets/css/color_skins.css')}}">
+</head>
 
-            <div class="mt-4">
-                <x-jet-label for="password" value="{{ __('Password') }}" />
-                <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password"  autocomplete="current-password" />
-            </div>
+<body class="theme-blue">
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<div class="vertical-align-wrap">
+			<div class="vertical-align-middle auth-main">
+				<div class="auth-box">
+                    <div class="top text-center">
+                        {{-- <img src="{{asset(get_setting('logo'))}}" alt="Lucid"> --}}
+                    </div>
+					<div class="card">
+                        <div class="header">
+                            <p class="lead">Login to your account ADMIN</p>
+                        </div>                              
+                                {{-- <x-auth-session-status class="mb-4" :status="session('status')" /> --}}
 
-            <div class="block mt-4">
-                <label for="remember_me" class="flex items-center">
-                    <x-jet-checkbox id="remember_me" name="remember" />
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
+                          {{-- <x-auth-validation-errors class="mb-4" :errors="$errors" /> --}}
 
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
+                        <div class="body">
 
-                <x-jet-button class="ml-4">
-                    {{ __('Log in') }}
-                </x-jet-button>
-            </div>
-        </form>
-    </x-jet-authentication-card>
-</x-guest-layout>
+                            <form class="form-auth-small" method="POST" action="{{ route('admin.login') }}">
+                                            @csrf
+
+                                <div class="form-group">
+                                    <label for="signin-email" class="control-label sr-only">Email Admin</label>
+                                    <input type="email" class="form-control" id="email" name="email" :value="old('email')" required autofocus placeholder="Email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="signin-password" class="control-label sr-only">Password</label>
+                                    <input type="password" class="form-control" id="password"  name="password"   required autocomplete="current-password"  placeholder="password" >
+                                </div>
+                      
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">LOGIN</button>
+                          
+                            </form>
+                        </div>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+    <!-- END WRAPPER -->
+    
+
+</body>
+</html>

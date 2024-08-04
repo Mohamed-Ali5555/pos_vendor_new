@@ -193,129 +193,15 @@
 
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-       {{-- /////////// add to wishlst //////////// --}}
-       <script>
-           $(document).on('click', '.add_to_wishlist_before_click_view', function(e) {
-               e.preventDefault(e);
+   
 
-               var product_id = $(this).data('id');
-               var product_qty = $(this).data('quantity');
-               var token = "{{ csrf_token() }}";
-
-               $.ajax({
-                   url: "{{ route('wishlist.store') }}",
-                   type: "post",
-                   dataType: "json",
-
-                   data: {
-                       product_id: product_id,
-                       product_qty: product_qty,
-                       _token: token,
-                       _method: "post",
-                   },
-                   beforeSend: function() {
-                       $('add_to_wishlist_before_click_view_' + product_id).html(
-                           '<i class="fa fa-spinner fa-spin">loading...</i>');
-                   },
-                   complete: function() {
-                       $('add_to_wishlist_before_click_view_' + product_id).html(
-                           '<i class="fa fa-spinner fa-spin">Add to cart...</i>');
-                   },
-                   success: function(data) {
-                       console.log(data);
-
-                       if (data['status']) {
-
-                           $('body #header-ajax').html(data['header']);
-                           $('body #wishlist_counter').html(data['wishlist_count']);
-
-                           swal({
-                               title: "Good job!",
-                               text: data['message'],
-                               icon: "success",
-                               button: "Aww yiss!",
-                           });
-                       } else if (data['percent']) {
-
-                           $('body #header-ajax').html(data['header']);
-                           $('body #wishlist_counter').html(data['wishlist_count']);
-
-                           swal({
-                               title: "Opps!",
-                               text: data['message'],
-                               icon: "warning",
-                               button: "ok!",
-                           });
-                       } else {
-                           swal({
-                               title: "Sorry!",
-                               text: 'Sorry you can not add more product',
-                               icon: "error",
-                               button: "Aww yiss!",
-                           });
-                       }
-
-                   }
-               })
-           });
-       </script>
-       {{-- /////////// add to wishlst //////////// --}}
-
-       {{-- ////  add to cart before modeal --}}
-       <script>
-           $(document).on('click', '.add_to_cart', function(e) {
-               e.preventDefault();
-               var product_id = $(this).data('product-id');
-               var product_qty = $(this).data('quantity');
-
-               {{-- alert(product_id); --}}
-
-               var token = "{{ csrf_token() }}";
-
-               $.ajax({
-                   url: "{{ route('cart.store') }}",
-                   type: "POST",
-                   dataType: "json",
-
-                   data: {
-                       product_id: product_id,
-                       product_qty: product_qty,
-                       _token: token,
-                       _method: "POST",
-                   },
-                   beforeSend: function() {
-                       $('#add_to_cart' + product_id).html(
-                           '<i class="fa fa-spinner fa-spin"></i>  loading...');
-                   },
-                   complete: function() {
-                       $('#add_to_cart' + product_id).html(
-                           '<i class="fa fa-cart-plus"></i>  Add to cart...');
-
-                   },
-                   success: function(data) {
-                       console.log(data);
-                       ///////////this make refresh when you add product
-                       {{-- $('body #header-ajax').html(data['header']); --}}
-                       $('body #header-ajax').html(data['header']);
-                       ////////////////
-                       if (data['status']) {
-                           swal({
-                               title: "Good job!",
-                               text: data['message'],
-                               icon: "success",
-                               button: "Aww yiss!",
-                           });
-                       }
-                   }
-               });
-           });
-       </script>
+    
 
        {{-- ////  add to cart before modeal --}}
 
 
        {{-- //  change quantity and get new value  --}}
-       <script>
+       {{-- <script>
            $('.qty-text22').change('key up', function() {
                var id = $(this).data('id');
 
@@ -327,53 +213,11 @@
 
                {{-- alert(newVal); --}}
            })
-       </script>
+       </script> --}}
        {{-- //  change quantity and get new value  --}}
 
 
-       <script>
-           $(document).on('click', '.add_to_cart22', function() {
-               var product_id = $(this).data('product_id');
-               var product_qty = $(this).data('quantity');
-
-               var token = "{{ csrf_token() }}";
-               $.ajax({
-                   url: "{{ route('cart.store') }}",
-                   type: "POST",
-                   dataType: "json",
-                   data: {
-                       product_id: product_id,
-                       product_qty: product_qty,
-                       _token: token,
-                       _method: "POST",
-                   },
-
-
-                   beforeSend: function() {
-                       $('#add_to_cart22_' + product_id).html(
-                           '<i class="fa fa-spinner fa-spin"></i>  loading...');
-                   },
-                   complete: function() {
-                       $('#add_to_cart22_' + product_id).html(
-                           '<i class="fa fa-cart-plus"></i>  Add to cart...');
-
-                   },
-                   success: function(data) {
-                       console.log(data);
-                       $('body #header-ajax').html(data['header']);
-                       if (data['status']) {
-                           swal({
-                               title: "Good job!",
-                               text: data['message'],
-                               icon: "success",
-                               button: "Aww yiss!",
-                           });
-                       }
-                   }
-               })
-
-           })
-       </script>
+     
        {{-- ///////  add to wishlist //// --}}
        <script>
            $(document).on('click', '.add_to_wishlist_click_view_modal', function(e) {
@@ -460,65 +304,6 @@
 
        {{-- /// move to compare page///// --}}
 
-       <script>
-           $(document).on('click', '.add_to_compare', function(e) {
-               e.preventDefault();
-
-               var product_id = $(this).data('id');
-               {{-- alert(product_id); --}}
-               var token = "{{ csrf_token() }}";
-
-               $.ajax({
-                   url: "{{ route('compare.store') }}",
-                   type: "post",
-                   dataType: "json",
-                   data: {
-                       product_id: product_id,
-                       _token: token,
-                       _method: "post",
-
-                   },
-                   beforeSend: function() {
-                       $('#add_to_compare_' + product_id).html('<i class="fas fa-spinner fa spin"></i>');
-                   },
-                   complete: function() {
-                       $('#add_to_compare_' + product_id).html('<i class="fa fa-exchange"></i> ');
-                   },
-                   success: function(data) {
-                       console.log(data);
-                       if (data['status']) {
-                           $('body #header-ajax').html(data['header']);
-                           $('body #compare_counter').html(data['compare_count']);
-
-                           swal({
-                               title: "Good job!",
-                               text: data['message'],
-                               icon: "success",
-                               button: "Aww yiss!",
-                           });
-                       } else if (data['percent']) {
-                           $('body #header-ajax').html(data['header']);
-                           $('body #compare_counter').html(data['compare_count']);
-                           swal({
-                               title: "Opps!",
-                               text: data['message'],
-                               icon: "warning",
-                               button: "ok!",
-                           });
-                       } else {
-                           swal({
-                               title: "Sorry!",
-                               text: data['message'],
-                               icon: "error",
-                               button: "Aww yiss!",
-                           });
-                       }
-
-                   }
-
-               })
-
-           })
-       </script>
+      
        {{-- /// move to compare page///// --}}
 @endsection

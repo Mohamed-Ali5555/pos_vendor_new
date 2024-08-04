@@ -23,7 +23,8 @@ return new class extends Migration
             $table->longText('return_cancellation')->nullable();
 
             $table->integer('stock')->default(0);
-     
+            $table->integer('reserved_stock')->default(0);
+
             $table->string('photo');
             $table->string('size_guide')->nullable();  // refer to image 
 

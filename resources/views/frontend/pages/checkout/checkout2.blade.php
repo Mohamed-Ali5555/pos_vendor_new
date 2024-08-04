@@ -31,7 +31,15 @@
                 @csrf
 
                 <div class="row">
-
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                     <div class="col-12">
                         <div class="checkout_details_area clearfix">
                             <h5 class="mb-4">Shipping Method</h5>
@@ -56,12 +64,15 @@
                                                         <td>$ {{ number_format($item->delivery_charge, 2) }}</td>
                                                         <td>
                                                             <div class="custom-control custom-radio">
-                                                                <input type="radio" id="customRadio1{{ $key }}" required name="delivery_charge"   value="{{ $item->delivery_charge }}"  class="custom-control-input">
+                                                                <input type="radio" id="customRadio1{{ $key }}"  name="delivery_charge"   value="{{ $item->delivery_charge }}"  class="custom-control-input">
                                                                 <label class="custom-control-label" for="customRadio1{{ $key }}"></label>
+                                                           
+                                                          
                                                             </div>
                                                         </td>
                                                     </tr>
                                                 @endforeach
+
                                             @else
                                                 <tr>
                                                     <td colspan="4">Shipping method not found!!</td>

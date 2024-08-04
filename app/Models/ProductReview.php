@@ -13,4 +13,8 @@ class ProductReview extends Model
     public function products(){
         return $this->hasMany('App\Models\ProductReview','product_id','id');
     }
+
+    // public function customer() {
+    //     return $this->hasOne('product_id');
+    // }
 }

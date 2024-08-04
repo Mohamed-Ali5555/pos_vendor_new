@@ -74,7 +74,10 @@ Route::post('shop-filter',[\App\Http\Controllers\frontend\IndexController::class
 /// search
 
 //ABOUT US
-Route::get('about_us',[\App\Http\Controllers\AboutusController::class,'index'])->name('about_us');
+Route::get('about_us',[\App\Http\Controllers\frontend\IndexController::class,'aboutUs'])->name('about_us');
+// contact us 
+Route::get('contact_us',[\App\Http\Controllers\frontend\IndexController::class,'contactUs'])->name('contact_us');
+Route::post('/contact-submit',[\App\Http\Controllers\frontend\IndexController::class,'contactSubmit'])->name('contact.submit');
 
 Route::get('search',[\App\Http\Controllers\frontend\IndexController::class,'search'])->name('search');
 Route::get('autosearch',[\App\Http\Controllers\frontend\IndexController::class,'autoSearch'])->name('autosearch');
@@ -86,7 +89,7 @@ Route::post('currency_load',[\App\Http\Controllers\CurrencieController::class,'c
 Route::post('coupon/add',[\App\Http\Controllers\frontend\CartController::class,'couponAdd'])->name('coupon.add');
 
 // checkout routes
-Route::get('checkout1',[\App\Http\Controllers\frontend\CheckoutController::class,'checkout1'])->name('checkout1');
+Route::get('checkout1',[\App\Http\Controllers\frontend\CheckoutController::class,'checkout1'])->name('checkout1')->middleware('user');
 Route::post('checkout-first',[\App\Http\Controllers\frontend\CheckoutController::class,'checkout1Store'])->name('checkout1.store');
 Route::post('checkout-two',[\App\Http\Controllers\frontend\CheckoutController::class,'checkout2Store'])->name('checkout2.store');
 Route::post('checkout-three',[\App\Http\Controllers\frontend\CheckoutController::class,'checkout3Store'])->name('checkout3.store');
@@ -104,3 +107,5 @@ Route::group(['prefix'=>'user'],function(){
 
 
 });
+
+

@@ -15,7 +15,7 @@
         @if (\Gloudemans\Shoppingcart\Facades\Cart::instance('shopping')->count() > 0)
 
           @foreach (\Gloudemans\Shoppingcart\Facades\Cart::instance('shopping')->content() as $item)
-              <tr>
+              <tr id="product_{{ $item->rowId }}">
                   <th scope="row">
                       <i class="icofont-close cart-delete" data-id="{{ $item->rowId }}"></i>
                   </th>

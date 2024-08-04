@@ -8,6 +8,12 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\user;
+use App\Models\ProductReview;
+use App\Models\AboutUs;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Contact;
+
+use DB;
 use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +32,86 @@ class IndexController extends Controller
         $featured_products = Product::where(['status' => 'active', 'is_featured' => 1])->orderBy('id', 'DESC')->limit('6')->get();
         $brands = Brand::where('status', 'active')->orderBy('id', 'DESC')->get();
 
-        return view('frontend.index', compact('banners', 'promo_banners', 'brands', 'new_products', 'categories', 'featured_products'));
+        // $topRatedProducts = DB::table('product_reviews')->select('*',DB::raw("(select max(`rate`) from product_reviews)"))->orderBy("rate",'asc')->get();
+
+        // $topRatedProducts = Product::select('products.*')
+        // ->Join('product_reviews', 'products.id', 'product_reviews.product_id')
+        // ->orderBy('product_reviews.rate', 'DESC')
+        // ->distinct('products.id')
+        // ->take(6)
+        // ->get();
+
+
+        // return $topRatedProducts;
+
+                // $reviews = ProductReview::where('id','product_id') ->latest()
+                // ->paginate(3);
+
+
+           //Top rated products
+    //  $item_rated=DB::table('product_reviews')->select('product_id',DB::raw('AVG(rate) as count'))->
+    //  groupBy('product_id')->orderBy("count",'desc')->get();
+    //  $product_ids=[];
+      
+    //  foreach($item_rated as $item){
+    //     array_push($product_ids,$item->product_id);
+    //  }
+    
+    //  $idoImloded = implode(',' , array_fill(0,count($product_ids),'?'));
+    //  if($idoImloded !=null){
+    //  $topRatedProducts=Product::whereIn('id',$product_ids)->orderByRaw("field(id,{$idoImloded})",$product_ids)->get();
+    //  }else{
+    //     $topRatedProducts=[];
+    // }
+
+
+        // return dd($topRatedProducts);
+
+        //top rated product
+        // here that i want to get high rate from product reviews get product_id 
+        $item_rated = DB::table('product_reviews')->select('product_id',DB::raw('AVG(rate) as count'))->
+        groupBy('product_id')->orderBy('count','desc')->get();
+        
+        $product_ids=[];
+        // in this i make array in var product_ids and 
+        // get item_rated id === to products_ids store in this store in array called products_id
+        foreach($item_rated as $item){
+            array_push($product_ids,$item->product_id);
+        }
+
+        $idoImloded = implode(',',array_fill(0,count($product_ids),'?'));
+        // this i think == products_ids ->count() how many but in array 
+        //you can make $product_ids !=null its ok 
+        if($idoImloded!=null){
+            $best_rated = Product::whereIn('id',$product_ids)->orderByRaw("field(id,{$idoImloded})",$product_ids)->get();
+        }else{
+            $best_rated=[];
+        }
+
+        // top sellers
+        $items  = DB::table('product_orders')->select('product_id',DB::raw('COUNT(product_id) as count'))->groupBy('product_id')
+        ->orderBy('count','desc')->get();
+
+        $product_ids=[];
+        foreach($items as $item){
+            array_push($product_ids,$item->product_id);
+
+        }
+
+        $idoImloded_selling = implode(',',array_fill(0,count($product_ids),'?'));
+
+        if($idoImloded_selling!=null){
+            $best_sellings = Product::whereIn('id',$product_ids)->orderByRaw("field(id,{$idoImloded_selling})",$product_ids)->get();
+        }else{
+            $best_sellings=[];
+        }
+
+
+        // $best_rated === orderByRaw(field  in here get id that in model product == $products_id such as i had 1,2,3 in product_id and are in product get those
+        // and orderByRaw order as chat gpt in this  )
+        //return $best_rated;
+        return view('frontend.index', compact('banners', 'promo_banners', 'brands', 'new_products',
+        'categories', 'featured_products','best_rated','best_sellings'));
     }
 
     //product detail
@@ -87,12 +172,52 @@ class IndexController extends Controller
         return view('frontend.pages.product.product-category', compact(['categories', 'products']));
 
     }
+    public function aboutUs(Request $request){
+      
+        try{
+            $brands=Brand::where('status','active')->orderBy('id','DESC')->get();
 
+            $abouts=AboutUs::first();
+            
+            // return $abouts;
+            if($abouts != null){
+            return view('frontend.pages.about_us',compact('abouts','brands'));
+            }else{
+                return 'admin dont aff about information';
+            }
+        }catch(\Exception  $exception){
+            return back()->with('error', 'page error');
+        }
+   
+    }
+
+
+    ///contact page
+    public function contactUs(Request $request){
+
+        // $abouts=AbouteUs::first();
+        // return $abouts;
+        return view('frontend.pages.contact_us');
+    }
+    public function contactSubmit(Request $request){
+        $this->validate($request,[
+            'f_name'=>'string|required',
+            'l_name'=>'string|required',
+            'email'=>'email|required',
+            'message'=>'string|nullable|max:200',
+            'subject'=>'min:4|string|required',
+
+        ]);
+        $data = $request->all();
+        $data = Mail::to('oppnot280@gmail.com')->send(new Contact($data));
+        return back()->with('success','successfuly send your enquirey');
+
+    }
     public function shop(Request $request)
     {
-        // $products=Product::all();
+        $products=Product::query();
 
-        $products = Product::query();
+        // $products=Product::query()->get();
 
         if (!empty($_GET['category'])) {
             $slugs = explode(',', $_GET['category']);
@@ -111,19 +236,7 @@ class IndexController extends Controller
             //  dd( $products);
         }
 
-        //sort price or filter price
-        if (!empty($_GET['price'])) {
-            $price = explode('-', $_GET['price']);
-            $price[0] = floor($price[0]);
-            $price[1] = ceil($price[1]);
-            //    dd($price);
-
-            //   $products= $products->whereBetween('offer_price',$price)->where('status','active')->paginate(12);
-            //   $products=$products->whereBetween('offer_price',$price)->where('status','active')->paginate(12);
-            $products = $products->whereBetween('offer_price', $price)->where('status', 'active')->paginate(12);
-
-            //   dd($products);
-        }
+      
 
         //sort by size
         if (!empty($_GET['size'])) {
@@ -136,29 +249,43 @@ class IndexController extends Controller
             // dd($sort);
 
             if ($_GET['sortBy'] == 'priceAsc') {
-                $products = $products->where(['status' => 'active'])->orderBy('offer_price', 'Asc')->paginate(12);
+                $products = $products->where('status', 'active')->orderBy('offer_price', 'Asc');
 
             }if ($_GET['sortBy'] == 'priceDesc') {
-                $products = $products->where(['status' => 'active'])->orderBy('offer_price', 'Desc')->paginate(12);
+                $products = $products->where('status', 'active')->orderBy('offer_price', 'DESC');
 
             }if ($_GET['sortBy'] == 'titleAsc') {
-                $products = $products->where(['status' => 'active'])->orderBy('title', 'Asc')->paginate(12);
+                $products = $products->where('status', 'active')->orderBy('title', 'Asc');
 
             }if ($_GET['sortBy'] == 'titleDesc') {
-                $products = $products->where(['status' => 'active'])->orderBy('title', 'Desc')->paginate(12);
+                $products = $products->where('status', 'active')->orderBy('title', 'Desc');
 
             }if ($_GET['sortBy'] == 'disAsc') {
-                $products = $products->where(['status' => 'active'])->orderBy('price', 'Asc')->paginate(12);
+                $products = $products->where('status', 'active')->orderBy('price', 'Asc');
 
             }
             if ($_GET['sortBy'] == 'disDesc') {
-                $products = $products->where(['status' => 'active'])->orderBy('price', 'Desc')->paginate(12);
+                $products = $products->where('status', 'active')->orderBy('price', 'Desc');
             }
+        }
+          //sort price or filter price
+          if (!empty($_GET['price'])) {
+            $price = explode('-', $_GET['price']);
+            $price[0] = floor($price[0]);
+            $price[1] = ceil($price[1]);
+            //    dd($price);
 
-            //  dd(($_GET['sortBy']));
+            //   $products= $products->whereBetween('offer_price',$price)->where('status','active')->paginate(12);
+            //   $products=$products->whereBetween('offer_price',$price)->where('status','active')->paginate(12);
+            $products = $products->whereBetween('offer_price', $price)->where('status', 'active');
 
-        } else {
-            $products = $products->where('status', 'active');
+            //   dd($products);
+        }
+   
+        else {
+            // $products = $products;
+            $products= $products->where('status','active')->paginate(15);
+
 
         }
 
@@ -233,7 +360,7 @@ class IndexController extends Controller
 
         $data = array();
 
-        $data = array();
+        // $data = array();
         foreach ($products as $product) {
             $data[] = array('value' => $product->title, 'id' => $product->id);
         }
@@ -289,8 +416,19 @@ class IndexController extends Controller
 
     public function registerSubmit(Request $request)
     {
+      
+        $validated = $request->validate([
+            'email' => 'email|required|unique:users,email', // Replace 'your_table_name' with your actual table name
+            'password' => 'required|min:4',
+            'full_name' => 'string|required',
+            'username' =>'string|nullable',
+
+        ]);
+
+        
         // return $request->all();
         $data = $request->all();
+        
         // $check = $this->create($data);
         $check = user::create([
             'full_name' => $data['full_name'],
@@ -311,7 +449,7 @@ class IndexController extends Controller
 
     public function userLogout()
     {
-        Session::forget('user');
+        Session::flush();  ///flush()   forget('user')
         Auth::logout();
         return \redirect()->home()->with('success', 'Successfuly logout');
     }

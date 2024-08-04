@@ -31,7 +31,7 @@
                 <div class="col-md-12">
                 </div>
                 {{-- ################################# --}}
-                @if ($errors->any())
+                {{-- @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
                             @foreach ($errors->all() as $error)
@@ -39,7 +39,7 @@
                             @endforeach
                         </ul>
                     </div>
-                @endif
+                @endif --}}
                 {{-- ########################### --}}
             </div>
             <div class="row">
@@ -56,55 +56,88 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="first_name">First Name</label>
                                     <input type="text" class="form-control" id="first_name" placeholder="First Name"
-                                        name="first_name" value="{{ $name[0] }}" required>
+                                        name="first_name" value="{{old('first_name', $name[0]) }}" required>
+                                        @error('first_name')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="last_name">Last Name</label>
                                     <input type="text" class="form-control" id="last_name" placeholder="Last Name"
-                                        name="last_name" value="{{ $user->username }}" required>
-                                </div>
+                                        name="last_name" value="{{ old('last_name', $user->username) }}" required>
+                               
+                                        @error('last_name')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
 
                                 <div class="col-md-6 mb-3">
                                     <label for="email_address">Email Address</label>
                                     <input type="email" class="form-control" id="email" placeholder="Email Address"
-                                        name="email" value="{{ $user->email }}" readonly>
-                                </div>
+                                        name="email" value="{{ old('email',$user->email) }}" readonly>
+                                       
+                                    </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="phone_number">Phone Number</label>
                                     <input type="number" class="form-control" id="phone" min="0" name="phone"
-                                        value="{{ $user->phone }}">
+                                        value="{{ old('phone', $user->phone )}}">
+
+                                        @error('phone')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="country">Country</label>
                                     <input type="text" class="form-control" id="country" name="country"
-                                        value="{{ $user->country }}" placeholder="eg .Nepal">
-                                </div>
+                                        value="{{ old('country', $user->country) }}" placeholder="eg .Nepal">
+                                        @error('country')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="street_address">Street address</label>
                                     <input type="text" class="form-control" id="address" name="address"
-                                        placeholder="Street Address" value="{{ $user->address }}">
-                                </div>
+                                        placeholder="Street Address" value="{{old('address', $user->address )}}">
+                               
+                                        @error('address')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
 
                                 <div class="col-md-6 mb-3">
                                     <label for="city">Town/City</label>
                                     <input type="text" class="form-control" id="city" name="city"
-                                        placeholder="Town/City" value="{{ $user->city }}">
-                                </div>
+                                        placeholder="Town/City" value="{{old('city', $user->city) }}">
+                                        @error('city')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                
+                                    </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="state">State</label>
                                     <input type="text" class="form-control" id="state" name="state"
-                                        placeholder="State" value="{{ $user->state }}">
+                                        placeholder="State" value="{{ old('state',$user->state) }}">
+                                        @error('state')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="postcode">Postcode/Zip</label>
                                     <input type="text" class="form-control" id="postcode" name="postcode"
-                                        placeholder="Postcode / Zip" value="{{ $user->postcode }}">
-                                </div>
+                                        placeholder="Postcode / Zip" value="{{ old('postcode',$user->postcode) }}">
+                                        @error('postcode')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 <div class="col-md-12">
                                     <label for="order-notes">Order Notes</label>
                                     <textarea class="form-control" id="order-notes" cols="30" rows="10"
-                                        placeholder="Notes about your order, e.g. special notes for delivery." name="note">{{ $user->note }}</textarea>
-                                </div>
+                                        placeholder="Notes about your order, e.g. special notes for delivery." name="note">{{ old('note',$user->note) }}</textarea>
+                                
+                                        @error('note')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                             </div>
 
 
@@ -122,14 +155,20 @@
                                     <div class="col-md-6 mb-3">
                                         <label for="first_name">First Name</label>
                                         <input type="text" class="form-control" id="sfirst_name"
-                                            placeholder="First Name" name="sfirst_name" value="{{ $name[0] }}"
+                                            placeholder="First Name" name="sfirst_name" value="{{ old('sfirst_name',$name[0]) }}"
                                             required>
+                                            @error('sfirst_name')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="last_name">Last Name</label>
                                         <input type="text" class="form-control" id="slast_name"
-                                            placeholder="Last Name" name="slast_name" value="{{ $user->username }}"
+                                            placeholder="Last Name" name="slast_name" value="{{ old('slast_name',$user->username) }}"
                                             required>
+                                            @error('slast_name')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
 
                                         {{-- <input type="text" class="form-control" id="slast_name" placeholder="Last Name" name="slastname" value="{{$name[1]}}" required> --}}
                                     </div>
@@ -137,41 +176,62 @@
                                     <div class="col-md-6 mb-3">
                                         <label for="email_address">Email Address</label>
                                         <input type="email" class="form-control" id="semail"
-                                            placeholder="Email Address" name="semail" value="{{ $user->email }}"
+                                            placeholder="Email Address" name="semail" value="{{ old('semail',$user->email) }}"
                                             readonly>
+                                            @error('semail')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="phone_number">Phone Number</label>
                                         <input type="number" class="form-control" id="sphone" min="0"
-                                            name="sphone" placeholder="phone number" value="{{ $user->sphone }}">
-                                    </div>
+                                            name="sphone" placeholder="phone number" value="{{old('sphone', $user->sphone) }}">
+                                            @error('sphone')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="country">Country</label>
                                         <input type="text" class="form-control" id="scountry" name="scountry"
-                                            value="{{ $user->scountry }}" placeholder="eg .Nepal">
-                                    </div>
+                                            value="{{old('scountry',  $user->scountry) }}" placeholder="eg .Nepal">
+                                            @error('scountry')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="street_address">Street address</label>
                                         <input type="text" class="form-control" id="saddress"
                                             placeholder="ship to the same Address" name="saddress"
-                                            value="{{ $user->saddress }}">
-                                    </div>
+                                            value="{{ old('saddress', $user->saddress) }}">
+                                            @error('saddress')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
 
                                     <div class="col-md-6 mb-3">
                                         <label for="city">Town/City</label>
                                         <input type="text" class="form-control" id="scity" name="scity"
-                                            placeholder="Town/City" value="{{ $user->scity }}">
+                                            placeholder="Town/City" value="{{ old('scity',$user->scity) }}">
+                                            @error('scity')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="state">State</label>
                                         <input type="text" class="form-control" id="sstate" name="sstate"
-                                            placeholder="State" value="{{ $user->sstate }}">
+                                            placeholder="State" value="{{ old('sstate',$user->sstate) }}">
+                                            @error('sstate')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="postcode">Postcode/Zip</label>
                                         <input type="text" class="form-control" id="spostcode" name="spostcode"
-                                            placeholder="Postcode / Zip" value="{{ $user->spostcode }}">
-                                    </div>
+                                            placeholder="Postcode / Zip" value="{{ old('spostcode',$user->spostcode) }}">
+                                            @error('spostcode')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                 </div>
                             </div>
 

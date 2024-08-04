@@ -1,0 +1,170 @@
+[33mtag v2.0[m
+Tagger: Mohamed-Ali5555 <mohammedelbalshy4@gmail.com>
+Date:   Wed Feb 22 18:45:05 2023 +0200
+
+version 2
+
+[33mcommit 40ca7034b69b2c4e4142fa6045a591d180249ddd[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;33mtag: v2.0[m[33m)[m
+Author: Mohamed-Ali5555 <mohammedelbalshy4@gmail.com>
+Date:   Wed Feb 15 00:39:53 2023 +0200
+
+    six commet
+
+[1mdiff --git a/app/Http/Controllers/ProductController.php b/app/Http/Controllers/ProductController.php[m
+[1mindex 588125c..e19b7d9 100644[m
+[1m--- a/app/Http/Controllers/ProductController.php[m
+[1m+++ b/app/Http/Controllers/ProductController.php[m
+[36m@@ -200,16 +200,16 @@[m [mpublic function destroy(product $product)[m
+     public function addProductAttribute(Request $request,$id){[m
+ [m
+         [m
+[31m-        $validated = $request->validate([[m
+[32m+[m[32m        // $validated = $request->validate([[m
+          [m
+[31m-            'original_price'=>'required|numeric',[m
+[31m-            'offer_price'=>'required|numeric',[m
+[31m-            'size_guide'=>'nullable',[m
+[31m-            'product_id'=>'required|exists:products,id',[m
+[31m-            'size'=>'required|numeric',[m
+[32m+[m[32m        //     'original_price'=>'required|numeric',[m
+[32m+[m[32m        //     'offer_price'=>'required|numeric',[m
+[32m+[m[32m        //     'size_guide'=>'nullable',[m
+[32m+[m[32m        //     'product_id'=>'required|exists:products,id',[m
+[32m+[m[32m        //     'size'=>'required',[m
+ [m
+ [m
+[31m-        ]);[m
+[32m+[m[32m        // ]);[m
+         // $data=$request->all();[m
+         // return $request->all();[m
+         $original_price = $request->original_price;[m
+[1mdiff --git a/app/Http/Controllers/frontend/CartController.php b/app/Http/Controllers/frontend/CartController.php[m
+[1mindex c1608e1..8ed6a36 100644[m
+[1m--- a/app/Http/Controllers/frontend/CartController.php[m
+[1m+++ b/app/Http/Controllers/frontend/CartController.php[m
+[36m@@ -18,12 +18,16 @@[m [mpublic function cart(){[m
+     }[m
+ [m
+     public function cartStore(Request $request){[m
+[32m+[m[32m        // return $request->all();[m
+         $product_id = $request->input('product_id');[m
+         $product_qty = $request->input('product_qty');[m
+     //    $product = DB::table('products')->where('id',$product_id)->get()->toArray();//section_id = id =>that is come from rote when you pres on it and pluck product_name with id [m
+ [m
+         $product = product::getProductByCart($product_id);[m
+ [m
+[32m+[m[32m        $size = $request->input('product_size');[m
+[32m+[m[32m        // return $size;[m
+[32m+[m
+         [m
+     //    return $product;[m
+ [m
+[36m@@ -34,9 +38,9 @@[m [mpublic function cartStore(Request $request){[m
+         foreach(Cart::instance('shopping')->content() as $item){[m
+             $cart_array[] = $item->id;[m
+         }[m
+[31m-        $result = Cart::instance('shopping')->add($product_id,$product[0]['title'],$product_qty,$price)->associate('App\Models\product');[m
+[32m+[m[32m        $result = Cart::instance('shopping')[m
+[32m+[m[32m        ->add($product_id,$product[0]['title'],$product_qty,$price, ['size' => $size])->associate('App\Models\product');[m
+ [m
+[31m-    //    $result =  Cart::instance('shopping')->add($product_id,$product[0]['title'],$product_qty,$price)->associate('App\Models\product');[m
+ [m
+         if($result){[m
+             $response['status'] = true;[m
+[1mdiff --git a/composer.json b/composer.json[m
+[1mindex 2b7f824..cf37276 100644[m
+[1m--- a/composer.json[m
+[1m+++ b/composer.json[m
+[36m@@ -8,11 +8,13 @@[m
+         "php": "^8.0.2",[m
+         "guzzlehttp/guzzle": "^7.2",[m
+         "hardevine/shoppingcart": "^3.1",[m
+[32m+[m[32m        "laravel-admin-ext/summernote": "^1.0",[m
+         "laravel/framework": "^9.19",[m
+         "laravel/jetstream": "^2.13",[m
+         "laravel/sanctum": "^3.0",[m
+         "laravel/tinker": "^2.7",[m
+[31m-        "livewire/livewire": "^2.5"[m
+[32m+[m[32m        "livewire/livewire": "^2.5",[m
+[32m+[m[32m        "unisharp/laravel-filemanager": "^2.5"[m
+     },[m
+     "require-dev": {[m
+         "fakerphp/faker": "^1.9.1",[m
+[1mdiff --git a/composer.lock b/composer.lock[m
+[1mindex be0901e..9135afd 100644[m
+[1m--- a/composer.lock[m
+[1m+++ b/composer.lock[m
+[36m@@ -4,7 +4,7 @@[m
+         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",[m
+         "This file is @generated automatically"[m
+     ],[m
+[31m-    "content-hash": "3092fde67cb153b2c0f7fc8f27c2b252",[m
+[32m+[m[32m    "content-hash": "b8c131042a222788e808892cf1485757",[m
+     "packages": [[m
+         {[m
+             "name": "bacon/bacon-qr-code",[m
+[36m@@ -238,6 +238,345 @@[m
+             },[m
+             "time": "2022-10-27T11:44:00+00:00"[m
+         },[m
+[32m+[m[32m        {[m
+[32m+[m[32m            "name": "doctrine/cache",[m
+[32m+[m[32m            "version": "2.2.0",[m
+[32m+[m[32m            "source": {[m
+[32m+[m[32m                "type": "git",[m
+[32m+[m[32m                "url": "https://github.com/doctrine/cache.git",[m
+[32m+[m[32m                "reference": "1ca8f21980e770095a31456042471a57bc4c68fb"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "dist": {[m
+[32m+[m[32m                "type": "zip",[m
+[32m+[m[32m                "url": "https://api.github.com/repos/doctrine/cache/zipball/1ca8f21980e770095a31456042471a57bc4c68fb",[m
+[32m+[m[32m                "reference": "1ca8f21980e770095a31456042471a57bc4c68fb",[m
+[32m+[m[32m                "shasum": ""[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "require": {[m
+[32m+[m[32m                "php": "~7.1 || ^8.0"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "conflict": {[m
+[32m+[m[32m                "doctrine/common": ">2.2,<2.4"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "require-dev": {[m
+[32m+[m[32m                "cache/integration-tests": "dev-master",[m
+[32m+[m[32m                "doctrine/coding-standard": "^9",[m
+[32m+[m[32m                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",[m
+[32m+[m[32m                "psr/cache": "^1.0 || ^2.0 || ^3.0",[m
+[32m+[m[32m                "symfony/cache": "^4.4 || ^5.4 || ^6",[m
+[32m+[m[32m                "symfony/var-exporter": "^4.4 || ^5.4 || ^6"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "type": "library",[m
+[32m+[m[32m            "autoload": {[m
+[32m+[m[32m                "psr-4": {[m
+[32m+[m[32m                    "Doctrine\\Common\\Cache\\": "lib/Doctrine/Common/Cache"[m
+[32m+[m[32m                }[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "notification-url": "https://packagist.org/downloads/",[m
+[32m+[m[32m            "license": [[m
+[32m+[m[32m                "MIT"[m
+[32m+[m[32m            ],[m
+[32m+[m[32m            "authors": [[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    "name": "Guilherme Blanco",[m
+[32m+[m[32m                    "email": "guilhermeblanco@gmail.com"[m
+[32m+[m[32m                },[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    "name": "Roman Borschel",[m
+[32m+[m[32m                    "email": "roman@code-factory.org"[m
+[32m+[m[32m                },[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    "name": "Benjamin Eberlei",[m
+[32m+[m[32m                    "email": "kontakt@beberlei.de"[m
+[32m+[m[32m                },[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    "name": "Jonathan Wage",[m
+[32m+[m[32m                    "email": "jonwage@gmail.com"[m
+[32m+[m[32m                },[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    "name": "Johannes Schmitt",[m
+[32m+[m[32m                    "email": "schmittjoh@gmail.com"[m
+[32m+[m[32m                }[m
+[32m+[m[32m            ],[m
+[32m+[m[32m            "description": "PHP Doctrine Cache library is a popular cache impleme

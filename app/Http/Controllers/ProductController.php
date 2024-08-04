@@ -77,8 +77,8 @@ class ProductController extends Controller
 
 
       //  return $data;
-      //// calculate offer price
-
+      //// calculate offer price 
+       $data['reserved_stock'] =0;
        $data['offer_price'] = ($request->price - (($request->price*$request->discount)/100));
       $new = product::create($data);
 
@@ -158,7 +158,7 @@ class ProductController extends Controller
 
             ]);
             $data = $request->all();
-
+            $data['reserved_stock'] =0;
             $data['offer_price']=($request->price-(($request->price*$request->discount)/100)); 
 
             // return $data;

@@ -106,8 +106,8 @@ class CompareController extends Controller
 
     
     public function compareDelete(Request $request){
-        $id=$request->input('rowId');
-        Cart::instance('compare')->remove($id);
+        // $id=$request->input('rowId');
+        Cart::instance('compare')->remove($request->id);
 
 
         $response['status']=true;

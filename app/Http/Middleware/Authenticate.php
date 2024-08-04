@@ -16,13 +16,23 @@ class Authenticate extends Middleware
     {
         if (! $request->expectsJson()) {
                // return route('login');
+            //    return 'ff';
                if($request->is('admin') || $request->is('admin/*')){
                 //return to admin login
+                               // return route('login');
+                            //    return 'ff';
+
                 return route('admin.showlogin');
-            }else{
+            
+            }elseif($request->is('seller') || $request->is('seller/*')){
                 //return to front login in case there is front
-                return route('employ.showlogin');
+                return route('seller.showlogin');
+            }else{
+                return route('login');
             }
             }
+        // if (! $request->expectsJson()) {
+        //     return route('login');
+        // }
     }
 }

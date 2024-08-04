@@ -130,8 +130,9 @@
                     dangerMode: true,
                 })
                 .then((willDelete) => {
-                    form.submit();
+                  
                     if (willDelete) {
+                          form.submit();
                         swal("Poof! Your imaginary file has been deleted!", {
                             icon: "success",
                         });

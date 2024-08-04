@@ -53,7 +53,7 @@
                                 <tbody>
                                     <tr>
                                         <td>Sub Total</td>
-                                        <td>${{ \Gloudemans\Shoppingcart\Facades\Cart::subtotal() }}</td>
+                                        <td id="subtotal">${{ \Gloudemans\Shoppingcart\Facades\Cart::subtotal() }}</td>
                                     </tr>
 
                                     <tr>
@@ -66,25 +66,20 @@
                                             @endif
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <tr id="subtotalall">
                                         <td>Total</td>
                                         @if (\Illuminate\Support\Facades\Session::has('coupon'))
                                             <td>$
-                                               
-
-                                                {{number_format((float) str_replace(',','',\Gloudemans\Shoppingcart\Facades\Cart::subtotal()) -
-
-                                                 \Illuminate\Support\Facades\Session::get('coupon')['value'],2)
-                                                }}
+                                                {{ number_format((float) str_replace(',', '', \Gloudemans\Shoppingcart\Facades\Cart::subtotal()) - \Illuminate\Support\Facades\Session::get('coupon')['value'], 2) }}
                                             </td>
                                         @endif
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                    {{-- @if(session('user')) --}}
+                        {{-- @if (session('user')) --}}
                         <a href="{{ route('checkout1') }}" class="btn btn-primary d-block">Proceed To Checkout</a>
-{{-- @endif --}}
+                        {{-- @endif --}}
                         {{-- <a href="{{route('checkout1')}}" class="btn btn-primary d-block">Proceed To Checkout</a> --}}
                     </div>
                 </div>
@@ -111,10 +106,10 @@
     </script> --}}
 
     <script>
-        $(document).on('click','.coupon-btn',function(e){
+        $(document).on('click', '.coupon-btn', function(e) {
             e.preventDefault();
             var code = $('#code').val();
-            alert(code);
+            //alert(code);
             $('.coupon-btn').html(' <i class ="fas fa-spinner fa-spin" > </i> Applying....');
             $('#coupon-form').submit();
         })
@@ -122,113 +117,8 @@
 
 
 
-    {{-- /////// delete from cart  /////////  --}}
-    <script>
-        $(document).on('click', '.cart-delete', function(e) {
-            e.preventDefault(e);
-            var rowId = $(this).data('id');
-            {{-- alert(rowId); --}}
-            var token = "{{ csrf_token() }}";
-
-            $.ajax({
-                url: "{{ route('cart.delete') }}",
-                type: "post",
-                dataType: "json",
-                data: {
-                    rowId: rowId,
-                    _token: token,
-                    _method: "post",
-                },
-                success: function(data) {
-                   console.log(data);
-                    
-                    $('body #header-ajax').html('header');
-
-                    if (data['status']) {
-                        $('body #cart_counter').html(data['cart_count']);
-                         $('body #header-ajax').html(data['header']);
-
-                        swal({
-                            title: "Good job!",
-                            text: data['message'],
-                            icon: "success",
-                            button: "ok!",
-                        });
-                    }
-
-                },
-                error: function(err) {
-                    alert('error');
-                }
-            })
-        })
-    </script>
-    {{-- /////// delete from cart  /////////  --}}
 
 
 
-    {{-- ////////c change quantity  --}}
-    <script>
-        $(document).on('click', '.qty-text', function() {
-            var id = $(this).data('id');
-            var spinner = $(this),
-                input = spinner.closest("div.quantity").find('input[type="number"]');
 
-            if (input.val() == 1) {
-                return false;
-            }
-
-            if (input.val() != 1) {
-                var newVal = parseFloat(input.val());
-                $('#qty-input-' + id).val(newVal);
-            }
-
-            var productQuantity = $("#update-cart-" + id).data('product-qunatity'); /// stock
-            {{-- alert(productQuantity) --}}
-            update_cart(id, productQuantity)
-        });
-
-        function update_cart(id, productQuantity) {
-            var rowId = id;
-            var product_qty = $('#qty-input-' + rowId).val();
-            var token = "{{ csrf_token() }}";
-            var path = "{{ route('cart.update') }}";
-
-            $.ajax({
-                    url: path,
-                    type: "post",
-                    data: {
-                        _token: token,
-                        product_qty: product_qty,
-                        rowId: rowId,
-                        productQuantity: productQuantity,
-                    },
-                    success: function(data) {
-                        console.log(data);
-                        $('body #header-ajax').html(data['header']);
-                        $('body #cart_counter').html(data['cart_count']);
-                        $('body #cart_list').html(data['cart_list']);
-
-                        if (data['status']) {
-                            swal({
-                                title: "Good job!",
-                                text: data['message'],
-                                icon: "success",
-                                button: "ok!",
-                            });
-                            alert(data['message']);
-                        } else {
-
-                            alert(data['message']);
-
-                        }
-                    }
-                
-            });
-            
-        }
-        
-    </script>
-
-    {{-- ////////c change quantity  --}}
 @endsection

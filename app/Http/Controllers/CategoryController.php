@@ -203,26 +203,43 @@ if($category){
 //     return back()->with('error','Data not found !');
 // }
     }
-    public function getChildByParent(Request $request,$id){
+    // public function getChildByParent(Request $request,$id){
 
-        // return $request->all();
-        $category = Category::find($request->id);
+    //     // return $request->all();
+    //     $category = Category::find($request->id);
 
-        $child_id = DB::table('categories')->where('parent_id',$id)->pluck('title','id');//section_id = id =>that is come from rote when you pres on it and pluck product_name with id 
+    //     $child_id = DB::table('categories')->where('parent_id',$id)->pluck('title','id');//section_id = id =>that is come from rote when you pres on it and pluck product_name with id 
 
         // $child_id = Category::getChildByParentID($request->id);
 
         // return $child_id;
   
-         if($category){
-          if(count($child_id)<=0){  // < = 0 because  chid_id or parent_id not equal 1 but its child to parent
-              return response()->json(['status'=>false,'data'=>null,'msg'=>'']);
-          }
-          return response()->json(['status'=>true,'data'=>$child_id,'msg'=>'']);
+    //      if($category){
+    //       if(count($child_id)<=0){  // < = 0 because  chid_id or parent_id not equal 1 but its child to parent
+    //           return response()->json(['status'=>false,'data'=>null,'msg'=>'']);
+    //       }
+    //       return response()->json(['status'=>true,'data'=>$child_id,'msg'=>'']);
     
-         }else{
-          return response()->json(['status'=>false,'data'=>null,'msg'=>'category not found']);
+    //      }else{
+    //       return response()->json(['status'=>false,'data'=>null,'msg'=>'category not found']);
   
-         }
+    //      }
+    //   }
+
+
+      public function getChildByParent(Request $request,$id){
+        $category = Category::find($request->id);
+
+        $child_id = DB::table('categories')->where('parent_id',$id)->pluck('title','id');
+
+        if($category){
+            if(count($child_id)<=0){  //<=0
+                return response()->json(['status'=>false,'data'=>null,'msg'=>'']);
+            }
+            return response()->json(['status'=>true,'data'=>$child_id,'msg'=>'']);
+        }else{
+            return response()->json(['status'=>false,'data'=>null,'msg'=>'category not found']);
+        }
+
       }
 }

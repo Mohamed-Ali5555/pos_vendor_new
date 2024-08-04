@@ -19,7 +19,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const HOME = '/dashboard';
     public const Admin = '/admin';
-
+    public const Seller = '/seller';
+    
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
      *
@@ -38,9 +39,14 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
 
 
+              
                 Route::middleware('admin')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/admin.php'));
+
+                Route::middleware('seller')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/seller.php'));
         });
     }
 
@@ -52,7 +58,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function configureRateLimiting()
     {
         RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+            return Limit::perMinute(60)->by($request->user()->id ?: $request->ip());
         });
     }
 }

@@ -1,7 +1,8 @@
 @extends('admin.layouts.master')
-@section('content')
 
-<div id="main-content">
+
+@section('content')
+    <div id="main-content">
         <div class="container-fluid">
             <div class="block-header">
                 <div class="row">
@@ -9,7 +10,7 @@
                         <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
                                     class="fa fa-arrow-left"></i></a>Dashboard</h2>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin') }}"><i class="icon-home"></i></a></li>
                             <li class="breadcrumb-item active">eCommerce</li>
                         </ul>
                     </div>
@@ -21,8 +22,8 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="card overflowhidden">
                         <div class="body">
-                            {{-- <h3>{{ \App\Models\Category::where('status', 'active')->where('is_parent', 1)->count() }} <i
-                                    class="icon-basket-loaded float-right"></i></h3> --}}
+                            <h3>{{ \App\Models\Category::where('status', 'active')->where('is_parent', 1)->count() }} <i
+                                    class="icon-basket-loaded float-right"></i></h3>
                             <span>total category</span>
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-blue m-b-0">
@@ -37,8 +38,8 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="card overflowhidden">
                         <div class="body">
-                            {{-- <h3>{{ \App\Models\Product::where('status', 'active')->count() }} <i
-                                    class=" icon-heart float-right"></i></h3> --}}
+                            <h3>{{ \App\Models\Product::where('status', 'active')->count() }} <i
+                                    class=" icon-heart float-right"></i></h3>
                             <span>Total products</span>
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-green m-b-0">
@@ -51,8 +52,8 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="card overflowhidden">
                         <div class="body">
-                            {{-- <h3>{{ \App\Models\User::where('status', 'active')->count() }} <i
-                                    class="icon-user-follow float-right"></i></h3> --}}
+                            <h3>{{ \App\Models\User::where('status', 'active')->count() }} <i
+                                    class="icon-user-follow float-right"></i></h3>
                             <span>New Customers</span>
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
@@ -159,7 +160,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{-- <?php $i = 0; ?>
+                                        <?php $i = 0; ?>
                                         @forelse($orders as $order)
                                             <?php $i++; ?>
 
@@ -209,7 +210,7 @@
                                             <tr>
                                                 <td>No orders</td>
                                             </tr>
-                                        @endforelse --}}
+                                        @endforelse
 
 
                                     </tbody>

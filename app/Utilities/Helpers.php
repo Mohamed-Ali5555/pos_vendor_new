@@ -1,6 +1,10 @@
 <?php
 
 class Helper{
+
+    public static function useDefaultImage(){
+        return asset('frontend/img/default.png');
+    }
     public static function minPrice(){
         return floor(\App\Models\Product::min('offer_price'));
     }
@@ -69,5 +73,12 @@ class Helper{
         function format_price($price){
             return currency_symbol(). number_format($price,2);
         }
-    }
 
+       
+    }
+    if(!function_exists('get_setting')){
+
+    function get_setting($key){
+        return \App\Models\Setting::value($key);
+    }
+}

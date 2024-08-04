@@ -14,73 +14,34 @@ class AboutusController extends Controller
      */
     public function index()
     {
-        $aboutus = Aboutus::first();
-        return view('admin.aboutus.aboutus',compact('aboutus'));
+        $about = Aboutus::first();
+        // dd( $about->count());
+        // $about = $about->delete();
+        return view('admin.aboutus.aboutus',compact('about'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Aboutus  $aboutus
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Aboutus $aboutus)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Aboutus  $aboutus
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Aboutus $aboutus)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Aboutus  $aboutus
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(Request $request, Aboutus $aboutus)
     {
-        //
+        $about = Aboutus::first();
+        $about = $about->update([
+            'heading'=> $request->heading,
+            'content'=> $request->content,
+            'image'=> $request->image,
+            'happy_customer'=> $request->happy_customer,
+            'experience'=> $request->experience,
+            'return_customer'=> $request->return_customer,
+            'team_advisor'=> $request->team_advisor,
+
+        ]);
+        if($about){
+            return back()->with('success','AbouteUs updated successfuly');
+        }else{
+            return back()->with('error','Something went wrong');
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Aboutus  $aboutus
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Aboutus $aboutus)
-    {
-        //
-    }
+
 }

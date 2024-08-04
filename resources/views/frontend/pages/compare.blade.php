@@ -24,7 +24,7 @@
                     <div class="compare-list">
                         <div class="table-responsive" id="compare">
 
-                                          @include('frontend.layouts._compare')
+                            @include('frontend.layouts._compare')
 
                         </div>
                     </div>

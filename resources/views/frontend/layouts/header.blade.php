@@ -9,7 +9,7 @@
                         <span class="popover--text" data-toggle="popover"
                             data-content="Welcome to Bigshop ecommerce template."><i
                                 class="icofont-info-square"></i></span>
-                        <span class="text">Welcome to Bigshop ecommerce template.</span>
+                     <span class="text">Welcome to {{\App\Models\Setting::value('title')}}</span>
                     </div>
                 </div>
                 <div class="col-6">
@@ -36,13 +36,13 @@
                                     Helper::currency_load();
                                     $currency_code = session('currency_code');
                                     $currency_symbol = session('currency_symbol');
-                                    
+
                                     if ($currency_symbol == '') {
                                         $system_default_currency_info = session('system_default_currency_info');
                                         $currency_symbol = $system_default_currency_info->symbol;
                                         $currency_code = $system_default_currency_info->code;
                                     }
-                                    
+
                                 @endphp
 
 
@@ -78,7 +78,9 @@
                 <nav class="classy-navbar" id="bigshopNav">
 
                     <!-- Nav Brand -->
-                    <a href="index.html" class="nav-brand"><img src="img/core-img/logo.png" alt="logo"></a>
+                    <a href="{{route('home')}}" class="nav-brand">
+                    
+                    <img src="{{asset(get_setting('logo'))}}" alt="logo"></a>
 
                     <!-- Toggler -->
                     <div class="classy-navbar-toggler">
@@ -95,7 +97,7 @@
                         <!-- Nav -->
                         <div class="classynav">
                             <ul>
-                                <li><a href="#">Home</a>
+                                <li><a href="{{ route('home') }}">Home</a>
 
                                 </li>
                                 </li>
@@ -105,73 +107,10 @@
                                 <li><a href="{{ route('shop') }}">Shop</a>
 
                                 </li>
-                                <li><a href="#">Pages</a>
-                                    <div class="megamenu">
-                                        <ul class="single-mega cn-col-4">
-                                            <li><a href="about-us.html">- About Us</a></li>
-                                            <li><a href="faq.html">- FAQ</a></li>
-                                            <li><a href="contact.html">- Contact</a></li>
-                                            <li><a href="login.html">- Login &amp; Register</a></li>
-                                            <li><a href="404.html">- 404</a></li>
-                                            <li><a href="500.html">- 500</a></li>
-                                        </ul>
-                                        <ul class="single-mega cn-col-4">
-                                            <li><a href="my-account.html">- Dashboard</a></li>
-                                            <li><a href="order-list.html">- Orders</a></li>
-                                            <li><a href="downloads.html">- Downloads</a></li>
-                                            <li><a href="addresses.html">- Addresses</a></li>
-                                            <li><a href="account-details.html">- Account Details</a></li>
-                                            <li><a href="coming-soon.html">- Coming Soon</a></li>
-                                        </ul>
-                                        <div class="single-mega cn-col-2">
-                                            <div class="megamenu-slides owl-carousel">
-                                                <a href="shop-grid-left-sidebar.html">
-                                                    <img src="img/bg-img/mega-slide-2.jpg" alt="">
-                                                </a>
-                                                <a href="shop-list-left-sidebar.html">
-                                                    <img src="img/bg-img/mega-slide-1.jpg" alt="">
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li><a href="#">Blog</a>
-                                    <ul class="dropdown">
-                                        <li><a href="blog-with-left-sidebar.html">Blog Left Sidebar</a></li>
-                                        <li><a href="blog-with-right-sidebar.html">Blog Right Sidebar</a></li>
-                                        <li><a href="blog-with-no-sidebar.html">Blog No Sidebar</a></li>
-                                        <li><a href="single-blog.html">Single Blog</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="#">Elements</a>
-                                    <div class="megamenu">
-                                        <ul class="single-mega cn-col-4">
-                                            <li><a href="accordian.html">- Accordions</a></li>
-                                            <li><a href="alerts.html">- Alerts</a></li>
-                                            <li><a href="badges.html">- Badges</a></li>
-                                            <li><a href="blockquotes.html">- Blockquotes</a></li>
-                                        </ul>
-                                        <ul class="single-mega cn-col-4">
-                                            <li><a href="breadcrumb.html">- Breadcrumbs</a></li>
-                                            <li><a href="buttons.html">- Buttons</a></li>
-                                            <li><a href="forms.html">- Forms</a></li>
-                                            <li><a href="gallery.html">- Gallery</a></li>
-                                        </ul>
-                                        <ul class="single-mega cn-col-4">
-                                            <li><a href="heading.html">- Headings</a></li>
-                                            <li><a href="icon-fontawesome.html">- Icon FontAwesome</a></li>
-                                            <li><a href="icon-icofont.html">- Icon Ico Font</a></li>
-                                            <li><a href="labels.html">- Labels</a></li>
-                                        </ul>
-                                        <ul class="single-mega cn-col-4">
-                                            <li><a href="modals.html">- Modals</a></li>
-                                            <li><a href="pagination.html">- Pagination</a></li>
-                                            <li><a href="progress-bars.html">- Progress Bars</a></li>
-                                            <li><a href="tables.html">- Tables</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li><a href="contact.html">Contact</a></li>
+                            
+                              
+                                
+                                <li><a href="{{ route('contact_us') }}">Contact</a></li>
                             </ul>
                         </div>
                     </div>
@@ -233,8 +172,12 @@
                                         <li>
                                             <div class="cart-item-desc">
                                                 <a href="#" class="image">
-                                                    <img src="img/product-img/top-1.png" class="cart-thumb"
+                                                @if(auth()->user())
+                                                    <img src="{{auth()->user()->photo}}" class="cart-thumb"
                                                         alt="">
+                                                        @else 
+                                                        <img src="{{Helper::useDefaultImage()}}" alt=""/>
+                                                        @endif
                                                 </a>
                                                 <div>
                                                     <a
@@ -244,9 +187,8 @@
                                                     </p>
                                                 </div>
                                             </div>
-                                            <a href="javascript:void(0);"
-                                                class=" cart_delete_dropdown dropdown-product-remove "
-                                                data-id="{{ $item->rowId }}"><i class="icofont-bin"></i> df</a>
+                                            <span class="dropdown-product-remove cart_delete_dropdown"
+                                                data-id="{{ $item->rowId }}"><i class="icofont-bin"></i></span>
                                         </li>
                                     @endforeach
                                 </ul>
@@ -301,59 +243,16 @@
     </div>
 </header>
 <!-- Header Area End -->
-@section('scripts')
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{{-- @section('scripts') --}}
+{{-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> --}}
+{{-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> --}}
+{{-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> --}}
 
-    {{-- /// DELETE PRODUCT CART FROM DROPDOWN LIST --}}
-    <script>
-        $('.cart_delete_dropdown').on('click', function() {
+{{-- /// DELETE PRODUCT CART FROM DROPDOWN LIST --}}
 
-            var cart_id = $(this).data('id');
-            alert(cart_id);
-
-            var token = "{{ csrf_token() }}";
-            {{-- var path=; --}}
+{{-- /// DELETE PRODUCT CART FROM DROPDOWN LIST --}}
 
 
 
-            $.ajax({
-                url: "{{ route('cart.delete') }}",
-                type: "POST",
-                dataType: "json",
 
-                data: {
-                    rowId: rowId,
-                    _token: token,
-                    _method: "POST",
-                },
-
-
-
-                success: function(data) {
-                    console.log(data);
-                    ///////////this make refresh when you add product
-                    ////////////////
-                    if (data['status']) {
-                        $('body #header-ajax').html(data['header']);
-
-
-                        swal({
-                            title: "Good job!",
-                            text: data['message'],
-                            icon: "success",
-                            button: "ok!",
-                        });
-                    }
-
-
-                },
-                error: function(err) {
-                    alert('error');
-                }
-
-
-            });
-        });
-    </script>
-    {{-- /// DELETE PRODUCT CART FROM DROPDOWN LIST --}}
-@endsection
+{{-- @endsection --}}

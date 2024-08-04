@@ -1,7 +1,8 @@
 @extends('frontend.layouts.master')
 @section('content')
     <!-- Quick View Modal Area -->
-    <div class="modal fade" id="quickview" tabindex="-1" role="dialog" aria-labelledby="quickview" aria-hidden="true">
+    <div class="modal fade" id="quickview{{ $product->id }}" tabindex="-1" role="dialog" aria-labelledby="quickview"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
@@ -14,18 +15,21 @@
 
                                 <div class="col-12 col-lg-5">
                                     <div class="quickview_pro_img">
-
-                                        <img class="first_img" src="img/product-img/new-1-back.png" alt="">
-                                        <img class="hover_img" src="img/product-img/new-1.png" alt="">
+                                        @php
+                                            $photo = explode(',', $product->photo);
+                                        @endphp
+                                        <!-- Product Image -->
+                                        <img class="first_img" src="{{ asset($photo[0]) }}" alt="">
                                         <!-- Product Badge -->
                                         <div class="product_badge">
-                                            <span class="badge-new">New</span>
+                                            <span class="badge-new">{{ $product->condition }}</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-7">
                                     <div class="quickview_pro_des">
-                                        <h4 class="title">Boutique Silk Dress</h4>
+                                        <h4 class="title">{{ ucfirst($product->title) }}
+                                        </h4>
                                         <div class="top_seller_product_rating mb-15">
                                             <i class="fa fa-star" aria-hidden="true"></i>
                                             <i class="fa fa-star" aria-hidden="true"></i>
@@ -33,29 +37,53 @@
                                             <i class="fa fa-star" aria-hidden="true"></i>
                                             <i class="fa fa-star" aria-hidden="true"></i>
                                         </div>
-                                        <h5 class="price">$120.99 <span>$130</span></h5>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia expedita
-                                            quibusdam aspernatur, sapiente consectetur accusantium perspiciatis praesentium
-                                            eligendi, in fugiat?</p>
-                                        <a href="#">View Full Product Details</a>
+                                        <h5 class="price">
+                                            {{-- {{ Helper::currency_converter($product->offer_price) }} --}}
+                                            {{-- <span>{{ Helper::currency_converter($product->price) }} --}}
+                                            </span>
+                                        </h5>
+                                        <p>{!! html_entity_decode($product->summary) !!}</p>
+                                        <a href="{{ route('product.detail', $product->slug) }}">View
+                                            Full Product Details</a>
                                     </div>
                                     <!-- Add to Cart Form -->
-                                    <form class="cart" method="post">
+                                    <div class="cart" method="post">
                                         <div class="quantity">
-                                            <input type="number" class="qty-text" id="qty" step="1"
-                                                min="1" max="12" name="quantity" value="1">
+
+
+
+                                            <input type="number" class="qty-text22" data-id="{{ $product->id }}"
+                                                step="1" min="1" max="99" name="quantity"
+                                                value="1" />
+
+
+
+
+
+
                                         </div>
-                                        <button type="submit" name="addtocart" value="5" class="cart-submit">Add to
+                                        <button type="submit" name="addtocart" value="5"
+                                            class="cart-submit add_to_cart" data-quantity="1"
+                                            {{-- data-price="{{ $product->offer_price }}"  --}}
+                                            data-product-id="{{ $product->id }}"
+                                            id="add_to_cart_{{ $product->id }}">Add to
                                             cart</button>
                                         <!-- Wishlist -->
-                                        <div class="modal_pro_wishlist">
-                                            <a href="wishlist.html"><i class="icofont-heart"></i></a>
+                                        <div class="modal_pro_wishlist  ">
+                                            <a href="javascript:void(0);" class="add_to_wishlist_click_view_modal"
+                                                data-quantity="1" data-id="{{ $product->id }}"
+                                                id="add_to_wishlist_click_view_modal2_{{ $product->id }}"><i
+                                                    class="icofont-heart"></i></a>
+
                                         </div>
                                         <!-- Compare -->
                                         <div class="modal_pro_compare">
-                                            <a href="compare.html"><i class="icofont-exchange"></i></a>
+                                            <a href="javascript:void(0);" class="add_to_compare_model"
+                                                data-id="{{ $product->id }}"
+                                                id="add_to_compare_model2_{{ $product->id }}"><i
+                                                    class="icofont-exchange"></i></a>
                                         </div>
-                                    </form>
+                                    </div>
                                     <!-- Share -->
                                     <div class="share_wf mt-30">
                                         <p>Share with friends</p>
@@ -149,7 +177,7 @@
                             <i class="fa fa-star" aria-hidden="true"></i>
                             <span class="text-muted">(8 Reviews)</span>
                         </div>
-                        <h4 class="price mb-4">${{ Helper::currency_converter($product->offer_price) }} 
+                        <h4 class="price mb-4">${{ Helper::currency_converter($product->offer_price) }}
                             <span>${{ Helper::currency_converter($product->price) }}</span>
                         </h4>
 
@@ -199,7 +227,7 @@
                                     $product_Attr = \App\Models\productAttribute::where('product_id', $product->id)->get();
                                 @endphp
                                 <select name="size" id="select_size">
-                                     <option value="{{ $product->size }}" selected>{{ $product->size }}</option>
+                                    <option value="{{ $product->size }}" selected>{{ $product->size }}</option>
 
                                     @foreach ($product_Attr as $size)
                                         <option value="{{ $size->size }}">{{ $size->size }}</option>
@@ -211,23 +239,28 @@
                         <!-- Add to Cart Form -->
                         <div class="cart clearfix my-5 d-flex flex-wrap align-items-center" method="post">
                             <div class="quantity">
-                                <input type="number" class="qty-text form-control" id="qty2" step="1"
+                                <input type="number" class=" form-control" id="counter_qty" step="1"
                                     min="1" max="12" data-id={{ $product->id }} name="quantity"
                                     value="1">
                             </div>
                             <button type="submit" name="addtocart" value="5"
-                                class="add_to_cart_button_details btn btn-primary mt-1 mt-md-0 ml-1 ml-md-3 "
-                                data-quantity="1" data-size="{{$product->size}}" data-price="{{ $product->offer_price }}"
-                                data-product_id="{{ $product->id }}"
-                                id="add_to_cart_button_details_{{ $product->id }}">
-                                Add to cart</button>
+                                class="add_to_cart btn btn-primary mt-1 mt-md-0 ml-1 ml-md-3 "
+                                data-quantity="1" data-size="{{ $product->size }}"
+                                {{-- data-price="{{ $product->offer_price }}" --}}
+                                 data-product-id="{{ $product->id }}"
+                                id="add_to_cart_{{ $product->id }}">
+                                Add to carteeeeeee</button>
                         </div>
+
 
                         <!-- Others Info -->
                         <div class="others_info_area mb-3 d-flex flex-wrap">
-                            <a class="add_to_wishlist" href="wishlist.html"><i class="fa fa-heart"
+                            <a href="javascript:void(0);" class="add_to_wishlist_before_click_view" data-quantity="1"
+                                data-id="{{ $product->id }}"
+                                id="add_to_wishlist_before_click_view_{{ $product->id }}"><i class="fa fa-heart"
                                     aria-hidden="true"></i> WISHLIST</a>
-                            <a class="add_to_compare" href="compare.html"><i class="fa fa-th" aria-hidden="true"></i>
+                            <a href="javascript:void(0);" class="add_to_compare" data-id="{{ $product->id }}"
+                                id="add_to_compare_{{ $product->id }}"><i class="fa fa-th" aria-hidden="true"></i>
                                 COMPARE</a>
                             <a class="share_with_friend" href="#"><i class="fa fa-share" aria-hidden="true"></i>
                                 SHARE WITH FRIEND</a>
@@ -303,20 +336,20 @@
                                                 <span>Your Ratings</span>
                                                 <div class="stars">
                                                     <input type="radio" name="rate" class="star-1" id="star-1"
-                                                    value="1">
-                                                <label class="star-1" for="star-1">1</label>
-                                                <input type="radio" name="rate" class="star-2" id="star-2"
-                                                    value="2">
-                                                <label class="star-2" for="star-2">2</label>
-                                                <input type="radio" name="rate" class="star-3" id="star-3"
-                                                    value="3">
-                                                <label class="star-3" for="star-3">3</label>
-                                                <input type="radio" name="rate" class="star-4" id="star-4"
-                                                    value="4">
-                                                <label class="star-4" for="star-4">4</label>
-                                                <input type="radio" name="rate" class="star-5" id="star-5"
-                                                    value="5">
-                                                <label class="star-5" for="star-5">5</label>
+                                                        value="1">
+                                                    <label class="star-1" for="star-1">1</label>
+                                                    <input type="radio" name="rate" class="star-2" id="star-2"
+                                                        value="2">
+                                                    <label class="star-2" for="star-2">2</label>
+                                                    <input type="radio" name="rate" class="star-3" id="star-3"
+                                                        value="3">
+                                                    <label class="star-3" for="star-3">3</label>
+                                                    <input type="radio" name="rate" class="star-4" id="star-4"
+                                                        value="4">
+                                                    <label class="star-4" for="star-4">4</label>
+                                                    <input type="radio" name="rate" class="star-5" id="star-5"
+                                                        value="5">
+                                                    <label class="star-5" for="star-5">5</label>
                                                 </div>
                                                 @error('rate')
                                                     <p class="text-danger">{{ $message }}</p>
@@ -329,7 +362,7 @@
                                                 <label for="options">Reason for your rating</label>
 
                                                 <select class="form-control small right py-0 w-100" id="options"
-                                                name="reason">
+                                                    name="reason">
 
                                                     <option value="quality"
                                                         {{ old('reason') == 'quality' ? 'selected' : '' }}>
@@ -351,11 +384,11 @@
                                                     <option value="others" {{ old('reason') == 'others' ? 'selected' : '' }}>
                                                         others
                                                     </option>
-                                                </selsct>
+                                                    </selsct>
 
-                                                @error('reason')
-                                                    <p class="text-danger">{{ $message }}</p>
-                                                @enderror
+                                                    @error('reason')
+                                                        <p class="text-danger">{{ $message }}</p>
+                                                    @enderror
                                             </div>
                                             <div class="form-group">
                                                 <label for="comments">Comments</label>
@@ -383,33 +416,34 @@
 
 
                                     <div class="reviews_area">
-                                      @php
-                                          $reviews = \App\Models\ProductReview::where('product_id',$product->id)->latest()->paginate(3);
-                                      @endphp
+                                        @php
+                                            $reviews = \App\Models\ProductReview::where('product_id', $product->id)
+                                                ->latest()
+                                                ->paginate(3);
+                                        @endphp
                                         <ul class="mt-5">
                                             <li>
                                                 @if (count($reviews) > 0)
                                                     @foreach ($reviews as $review)
                                                         <div class="single_user_review mb-15">
                                                             <div class="review-rating">
-                                                               @for ($i =0; $i<5; $i++)
-                                                               @if ($review->rate > $i)  
-                                                               {{-- IF RATE > 0 --}}
-                                                               <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                               @else
-                                                               <i class="far fa-star" aria-hidden="true"></i>
-                                                           @endif
-
-                                                               @endfor
+                                                                @for ($i = 0; $i < 5; $i++)
+                                                                    @if ($review->rate > $i)
+                                                                        {{-- IF RATE > 0 --}}
+                                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                                    @else
+                                                                        <i class="far fa-star" aria-hidden="true"></i>
+                                                                    @endif
+                                                                @endfor
 
                                                                 <span>for {{ $review->reason }}</span>
                                                             </div>
                                                             <div class="review-details">
-                                                                <p>by 
-                                                                    <a href="#"> {{\App\Models\User::where('id',$review->user_id)->value('full_name')}}</a>
+                                                                <p>by
+                                                                    <a href="#">
+                                                                        {{ \App\Models\User::where('id', $review->user_id)->value('full_name') }}</a>
                                                                     on
-                                                                    <span>{{\Carbon\Carbon::parse($review->created_at)->format('M,d,Y')}}</span>
+                                                                    <span>{{ \Carbon\Carbon::parse($review->created_at)->format('M,d,Y') }}</span>
                                                                     {{-- <span>{{ \Carbon\Carbon::parse($review->created_at)->format('M, d Y') }}</span> --}}
 
                                                                 </p>
@@ -471,28 +505,33 @@
                                 <!-- Single Product -->
                                 @foreach ($product->rel_products as $item)
                                     @if ($item->id != $product->id)
-                                        <div class="single-product-area">
+                                        <div class="single-product-area mb-30">
                                             <div class="product_image">
-                                                <!-- Product Image -->
                                                 @php
-                                                    $photo = explode(',', $item->photo);
+                                                    $photo = explode(',', $product->photo);
                                                 @endphp
-                                                <img class="normal_img" src="{{ $photo[0] }}"
-                                                    alt="{{ $item->title }}">
+                                                <!-- Product Image -->
+                                                <img class="normal_img" src="{{ asset($photo[0]) }}" alt="">
 
                                                 <!-- Product Badge -->
                                                 <div class="product_badge">
-                                                    <span>{{ $item->condition }}</span>
+                                                    <span>{{ $product->condition }}</span>
                                                 </div>
 
                                                 <!-- Wishlist -->
                                                 <div class="product_wishlist">
-                                                    <a href="wishlist.html"><i class="icofont-heart"></i></a>
+                                                    <a href="javascript:void(0);" class="add_to_wishlist_before_click_view"
+                                                        data-quantity="1" data-id="{{ $product->id }}"
+                                                        id="add_to_wishlist_before_click_view_{{ $product->id }}"><i
+                                                            class="icofont-heart"></i></a>
                                                 </div>
 
                                                 <!-- Compare -->
                                                 <div class="product_compare">
-                                                    <a href="compare.html"><i class="icofont-exchange"></i></a>
+                                                    <a href="javascript:void(0);" class="add_to_compare"
+                                                        data-id="{{ $product->id }}"
+                                                        id="add_to_compare_{{ $product->id }}"><i
+                                                            class="icofont-exchange"></i></a>
                                                 </div>
                                             </div>
 
@@ -500,22 +539,33 @@
                                             <div class="product_description">
                                                 <!-- Add to cart -->
                                                 <div class="product_add_to_cart">
-                                                    <a href="#"><i class="icofont-shopping-cart"></i> Add to Cart</a>
+                                                    <a href="javascript:void(0);" data-quantity="1"
+                                                        data-price="{{ $product->offer_price }}"data-size="{{ $product->size }}"
+                                                        data-product-id="{{ $product->id }}" class="add_to_cart"
+                                                        id="add_to_cart{{ $product->id }}"><i
+                                                            class="icofont-shopping-cart"></i>
+                                                        Add to Cart</a>
                                                 </div>
+
+
+
 
                                                 <!-- Quick View -->
                                                 <div class="product_quick_view">
-                                                    <a href="#" data-toggle="modal" data-target="#quickview"><i
+                                                    <a href="javascript:void(0);"data-toggle="modal"
+                                                        data-target="#quickview{{ $product->id }}"><i
                                                             class="icofont-eye-alt"></i> Quick View</a>
                                                 </div>
 
                                                 <p class="brand_name">
-                                                    {{ \App\Models\Brand::where('id', $item->brand_id)->value('title') }}</p>
+                                                    {{ \App\Models\Brand::where('id', $product->brand_id)->value('title') }}
+                                                </p>
                                                 <a
-                                                    href="{{ route('product.detail', $item->slug) }}">{{ ucfirst($item->title) }}</a>
-                                                <h6 class="product-price">${{ number_format($item->offer_price, 2) }}
+                                                    href="{{ route('product.detail', $product->slug) }}">{{ ucfirst($product->title) }}</a>
+                                                <h6 class="product-price">
+                                                    {{ Helper::currency_converter($product->offer_price) }}
                                                     <small><del
-                                                            class="text-danger">${{ number_format($item->price, 2) }}</del></small>
+                                                            class="text-danger">{{ Helper::currency_converter($product->price) }}</del></small>
                                                 </h6>
                                             </div>
                                         </div>
@@ -532,99 +582,9 @@
     @endsection
     {{-- //script of add to cart and change quantity --}}
     @section('scripts')
-    
-
-        <script>
-            
-        $('#select_size').on('change', function() {
-            var responseId = $(this).val();
-            var product_id = $('.add_to_cart_button_details').data('product_id');
-
-
-               $('#add_to_cart_button_details_'+product_id).attr('data-size',responseId);
-    
-});
-        </script>
-
-            <script>
-            $('.qty-text').change('key up',function(){
-                var id = $(this).data('id');  // product id
-                var spinner = $(this),
-                input = spinner.closest('div.quantity').find('input[type="number"]');
-                var newval = parseFloat(input.val());
-                // now we get new value
-                // and we should put it in product quantity
-                $('#add_to_cart_button_details_' +id).attr('data-quantity',newval);
-                // alert(newval);
-
-            })
-        </script>
-
-
-        <script>            
-        // $(document).on('click', '.add_to_cart_button_details23', function(e) {
-
-            $(document).on('click','.add_to_cart_button_details',function(e){
-                e.preventDefault();
-                var product_id = $(this).data('product_id');
-                var quantity = $(this).data('quantity');
-                var price = $(this).data('price');
-                var size = $(this).data('size');
-
-                var token = "{{csrf_token()}}";
-
-
-                $.ajax({
-                    url:"{{route('cart.store')}}",
-                    type:"post",
-                    dataType:"json",
-
-                    data:{
-                        product_id:product_id,
-                        product_qty:quantity,
-                        product_price:price,
-                        product_size:size,
-                        _token:token,
-                        _method:"post",
-                    },
-                    beforeSend:function(){
-                        $('#add_to_cart_button_details' + product_id).html(
-                            '<i class="fa fa-spinner fa-spin"></i> loading...'
-                        )
-                    },
-                    complete:function(){
-                        $('#add_to_cart_button_details_' + product_id).html(
-                            '<i class="fa fa-cart-plus"></i>  Add to cart...');
-                    },
-                    success:function(data){
-                        console.log(data);
-                        ///////////this make refresh when you add product
-                        $('body #header-ajax').html(data['header']);
-                        ////////////////
-                        if (data['status']) {
-                            swal({
-                                title: "Good job!",
-                                text: data['message'],
-                                icon: "success",
-                                button: "Aww yiss!",
-                            });
-                        }
-                    }
-
-                });
-            });
-        </script>
-
-
-
-        {{-- //////////////////////////////// Add to cart in product detail ///////////////////////////////////////// --}}
 
         {{-- //////////////////////////////// Add to cart in product detail ///////////////////////////////////////// --}}
     @endsection
-
-
-
-
 
 
 

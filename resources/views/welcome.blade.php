@@ -130,3 +130,405 @@
         </div>
     </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     {{-- ////////////////////////// --}}
+   {{-- //////////////////////////// --}}
+   <!-- https://codepen.io/vilcu/pen/ZQwdGQ -->
+    <div class="container rtl">
+            <div class="row g-4 pt-2 mt-0 mb-4 pb-2 __deal-of">
+                {{-- Deal of the day/Recommended Product --}}
+                <div class="col-xl-3 col-md-4">
+<div class="wrapper  deal_of_the_day __deal-of"style="background: {{ $web_config['primary_color'] }}">
+            @if (isset($deal_of_the_day) && isset($deal_of_the_day->product))
+            <div class="d-flex justify-content-center align-items-center __w-70p mx-auto">
+                <h1 class="align-items-center text-white"> {{ \App\CPU\translate('deal_of_the_day') }}
+                </h1>
+            </div>
+            <div class="recomanded-product-card">
+
+                <div class="d-flex justify-content-center align-items-center __pt-20 __m-20-r">
+                    <img class="__rounded-top"
+                        src="{{ \App\CPU\ProductManager::product_image_path('thumbnail') }}/{{ $deal_of_the_day->product['thumbnail'] }}"
+                        onerror="this.src='{{ asset('public/assets/front-end/img/image-place-holder.png') }}'"
+                        alt="">
+                </div>
+                <div class="__i-1">
+                    <div class="text-left __p-20px">
+
+                        @php($overallRating = \App\CPU\ProductManager::get_overall_rating($deal_of_the_day->product['reviews']))
+                        <div class="rating-show">
+                            <h5 class="font-semibold" style="color: {{ $web_config['primary_color'] }}">
+                                {{ \Illuminate\Support\Str::limit($deal_of_the_day->product['name'], 30) }}
+                            </h5>
+                            <span class="d-inline-block font-size-sm text-body">
+
+                                <label class="badge-style">(
+                                    {{ $deal_of_the_day->product->reviews_count }} )</label>
+                            </span>
+                        </div>
+                        <div class="">
+
+                            @if ($deal_of_the_day->product->discount > 0)
+                                <strike class="__text-12px __color-E96A6A __pl-2">
+                                    {{ \App\CPU\Helpers::currency_converter($deal_of_the_day->product->unit_price) }}
+                                </strike>
+                            @endif
+                            <span class="text-accent __text-22px __m-10px">
+                                {{ \App\CPU\Helpers::currency_converter(
+                                    $deal_of_the_day->product->unit_price -
+                                        \App\CPU\Helpers::get_product_discount($deal_of_the_day->product, $deal_of_the_day->product->unit_price),
+                                ) }}
+                            </span>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="recomanded-buy-button">
+                <button class="buy_btn" style="color:{{ $web_config['primary_color'] }}"
+                    onclick="location.href='{{ route('product', $deal_of_the_day->product->slug) }}'">{{ \App\CPU\translate('buy_now') }}
+                </button>
+            </div>
+        @else
+        @php(
+            $products= \App\Model\Product::active()->inRandomOrder()->take(5)->get()
+        )
+    <div class="d-flex justify-content-center align-items-center">
+        <h1 class="text-white"> {{ \App\CPU\translate('recommended_product') }}</h1>
+    </div>
+    <div class="carousel" id="carousel12" >
+       @foreach ($products as $product)
+      <div>
+        <div class="card">
+            <div class="recomanded-product-card">
+
+                <div class="d-flex justify-content-center align-items-center  __pt-20 __m-20-r">
+                    <img src="{{ \App\CPU\ProductManager::product_image_path('thumbnail') }}/{{ $product['thumbnail'] }}"
+                        onerror="this.src='{{ asset('public/assets/front-end/img/image-place-holder.png') }}'"
+                        alt="">
+                </div>
+                <div class="__i-1">
+                    <div class="text-left __p-20px">
+
+                        @php($overallRating = \App\CPU\ProductManager::get_overall_rating($product['reviews']))
+                        <div class="rating-show">
+                            <h5 class="font-semibold"
+                                style="color: {{ $web_config['primary_color'] }}">
+                                {{ \Illuminate\Support\Str::limit($product['name'], 40) }}
+                            </h5>
+                            <span class="d-inline-block font-size-sm text-body">
+
+                                <label class="badge-style">( {{ $product->reviews_count }} )</label>
+                            </span>
+                        </div>
+                        <div class="float-right">
+
+                            @if ($product->discount > 0)
+                                <strike class="__text-12px __color-E96A6A">
+                                    {{ \App\CPU\Helpers::currency_converter($product->unit_price) }}
+                                </strike>
+                            @endif
+                            <span class="text-accent __text-22px __m-10px">
+                                {{ \App\CPU\Helpers::currency_converter(
+                                    $product->unit_price - \App\CPU\Helpers::get_product_discount($product, $product->unit_price),
+                                ) }}
+                            </span>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="recomanded-buy-button">
+                <button class="buy_btn" style="color:{{ $web_config['primary_color'] }}"
+                    onclick="location.href='{{ route('product', $product->slug) }}'">{{ \App\CPU\translate('buy_now') }}
+                </button>
+            </div>
+                               
+        </div>
+      </div>    
+ 
+
+      @endforeach  
+    </div>
+     @endif
+    </div>
+    </div>
+    </div>
+    </div>
+   {{-- ////////////////////////// --}}
+   {{-- //////////////////////// --}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+                     @if ($deal_of_the_day !=null)
+            @foreach($deal_of_the_day as $deal)
+
+                    
+                       <div style="width:400px;">
+                 <div class="card">
+                    <div class="recomanded-product-card">
+                        <div class="d-flex justify-content-center align-items-center __pt-20 __m-20-r">
+                            <img class="__rounded-top"
+                                src="{{ \App\CPU\ProductManager::product_image_path('thumbnail') }}/{{ $deal->product['thumbnail'] }}"
+                                onerror="this.src='{{ asset('public/assets/front-end/img/image-place-holder.png') }}'"
+                                alt="">
+                        </div>
+                        <div class="__i-1">
+                            <div class="text-left __p-20px">
+                                @php($overallRating = \App\CPU\ProductManager::get_overall_rating($deal->product['reviews']))
+                                <div class="rating-show">
+                                    <h5 class="font-semibold" style="color: {{ $web_config['primary_color'] }}">
+                                        {{ \Illuminate\Support\Str::limit($deal->product['name'], 30) }}
+                                    </h5>
+                                    <span class="d-inline-block font-size-sm text-body">
+                                        <label class="badge-style">({{ $deal->product->reviews_count }})</label>
+                                    </span>
+                                </div>
+                                <div>
+                                    @if ($deal->product->discount > 0)
+                                        <strike class="__text-12px __color-E96A6A __pl-2">
+                                            {{ \App\CPU\Helpers::currency_converter($deal->product->unit_price) }}
+                                        </strike>
+                                    @endif
+                                    <span class="text-accent __text-22px __m-10px">
+                                        {{ \App\CPU\Helpers::currency_converter(
+                                            $deal->product->unit_price -
+                                            \App\CPU\Helpers::get_product_discount($deal->product, $deal->product->unit_price),
+                                        ) }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                      
+                    </div>
+                      <div class="recomanded-buy-button mt-5">
+                            <button class="buy_btn" style="color:{{ $web_config['primary_color'] }}"
+                                onclick="location.href='{{ route('product', $deal->product->slug) }}'">{{ \App\CPU\translate('buy_now') }}</button>
+                      </div>
+
+
+                </div>
+                 </div>  
+     @endforeach
+ </div>  
+                     @else
+                    @php(
+                        $products= \App\Model\Product::active()->inRandomOrder()->take(5)->get()
+                    )
+            <div class="d-flex justify-content-center align-items-center">
+                <h1 class="text-white"> {{ \App\CPU\translate('recommended_product') }}</h1>
+            </div>
+            <div class="carousel" id="carousel12" >
+            @foreach ($products as $product)
+            <div style="width:400px;">
+                <div class="card">
+                    <div class="recomanded-product-card">
+
+                        <div class="d-flex justify-content-center align-items-center  __pt-20 __m-20-r">
+                            <img src="{{ \App\CPU\ProductManager::product_image_path('thumbnail') }}/{{ $product['thumbnail'] }}"
+                                onerror="this.src='{{ asset('public/assets/front-end/img/image-place-holder.png') }}'"
+                                alt="">
+                        </div>
+                        <div class="__i-1">
+                            <div class="text-left __p-20px">
+
+                                @php($overallRating = \App\CPU\ProductManager::get_overall_rating($product['reviews']))
+                                <div class="rating-show">
+                                    <h5 class="font-semibold"
+                                        style="color: {{ $web_config['primary_color'] }}">
+                                        {{ \Illuminate\Support\Str::limit($product['name'], 40) }}
+                                    </h5>
+                                    <span class="d-inline-block font-size-sm text-body">
+
+                                        <label class="badge-style">( {{ $product->reviews_count }} )</label>
+                                    </span>
+                                </div>
+                                <div class="float-right">
+
+                                    @if ($product->discount > 0)
+                                        <strike class="__text-12px __color-E96A6A">
+                                            {{ \App\CPU\Helpers::currency_converter($product->unit_price) }}
+                                        </strike>
+                                    @endif
+                                    <span class="text-accent __text-22px __m-10px">
+                                        {{ \App\CPU\Helpers::currency_converter(
+                                            $product->unit_price - \App\CPU\Helpers::get_product_discount($product, $product->unit_price),
+                                        ) }}
+                                    </span>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                 
+                                    
+                </div> 
+                    <div class="recomanded-buy-button">
+                        <button class="buy_btn" style="color:{{ $web_config['primary_color'] }}"
+                            onclick="location.href='{{ route('product', $product->slug) }}'">{{ \App\CPU\translate('buy_now') }}
+                        </button>
+                    </div>
+            </div>    
+ 
+
+      @endforeach  
+    </div>
+     @endif
+
+
+
+

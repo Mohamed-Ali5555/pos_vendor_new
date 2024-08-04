@@ -9,7 +9,7 @@ class product extends Model
 {
     use HasFactory;
     protected $fillable=['title','slug','summary','description','additional_info','return_cancellation','stock','price','offer_price','discount','condition',
-    'is_featured','status','photo','size_guide','user_id','added_by','brand_id','cat_id','child_cat_id','size'];
+    'is_featured','status','photo','size_guide','user_id','added_by','brand_id','cat_id','child_cat_id','size','reserved_stock'];
    
    
     public function brand(){
@@ -27,8 +27,16 @@ class product extends Model
         return $this->hasMany('App\Models\Product','cat_id','cat_id')->where('status','active')->limit(10); //get all products that has the same cat_id
     }
 
+    public function orders(){
+        return $this->belongsToMany(Order::class,'product_order');
+    }
+
     ///////////////////////////
     public static function getProductByCart($id){
         return self::where('id',$id)->get()->toArray();
     }
+
+    // public function product_reviewsss() {
+    //     return $this->hasMany('App\Models\ProductReview','product_id');
+    // }
 }
