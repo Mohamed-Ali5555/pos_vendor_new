@@ -335,6 +335,7 @@
         },
         {
             "name": "doctrine/dbal",
+<<<<<<< HEAD
             "version": "3.6.3",
             "source": {
                 "type": "git",
@@ -345,6 +346,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/doctrine/dbal/zipball/9a747d29e7e6b39509b8f1847e37a23a0163ea6a",
                 "reference": "9a747d29e7e6b39509b8f1847e37a23a0163ea6a",
+=======
+            "version": "3.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/dbal.git",
+                "reference": "85b98cb23c8af471a67abfe14485da696bcabc2e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/85b98cb23c8af471a67abfe14485da696bcabc2e",
+                "reference": "85b98cb23c8af471a67abfe14485da696bcabc2e",
+>>>>>>> 6bc9f37b6ec28a370f2300faf7f504f2227c9a37
                 "shasum": ""
             },
             "require": {
@@ -357,6 +370,7 @@
                 "psr/log": "^1|^2|^3"
             },
             "require-dev": {
+<<<<<<< HEAD
                 "doctrine/coding-standard": "12.0.0",
                 "fig/log-test": "^1",
                 "jetbrains/phpstorm-stubs": "2022.3",
@@ -365,6 +379,16 @@
                 "phpunit/phpunit": "9.6.7",
                 "psalm/plugin-phpunit": "0.18.4",
                 "squizlabs/php_codesniffer": "3.7.2",
+=======
+                "doctrine/coding-standard": "11.1.0",
+                "fig/log-test": "^1",
+                "jetbrains/phpstorm-stubs": "2022.3",
+                "phpstan/phpstan": "1.9.14",
+                "phpstan/phpstan-strict-rules": "^1.4",
+                "phpunit/phpunit": "9.6.3",
+                "psalm/plugin-phpunit": "0.18.4",
+                "squizlabs/php_codesniffer": "3.7.1",
+>>>>>>> 6bc9f37b6ec28a370f2300faf7f504f2227c9a37
                 "symfony/cache": "^5.4|^6.0",
                 "symfony/console": "^4.4|^5.4|^6.0",
                 "vimeo/psalm": "4.30.0"
@@ -427,7 +451,11 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/doctrine/dbal/tree/3.6.3"
+=======
+                "source": "https://github.com/doctrine/dbal/tree/3.6.0"
+>>>>>>> 6bc9f37b6ec28a370f2300faf7f504f2227c9a37
             },
             "funding": [
                 {
@@ -443,6 +471,7 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2023-06-01T05:46:46+00:00"
         },
         {
@@ -470,6 +499,31 @@
                 "psalm/plugin-phpunit": "0.18.4",
                 "psr/log": "^1 || ^2 || ^3",
                 "vimeo/psalm": "4.30.0 || 5.12.0"
+=======
+            "time": "2023-02-07T22:52:03+00:00"
+        },
+        {
+            "name": "doctrine/deprecations",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/deprecations.git",
+                "reference": "0e2a4f1f8cdfc7a92ec3b01c9334898c806b30de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/0e2a4f1f8cdfc7a92ec3b01c9334898c806b30de",
+                "reference": "0e2a4f1f8cdfc7a92ec3b01c9334898c806b30de",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1|^8.0"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^9",
+                "phpunit/phpunit": "^7.5|^8.5|^9.5",
+                "psr/log": "^1|^2|^3"
+>>>>>>> 6bc9f37b6ec28a370f2300faf7f504f2227c9a37
             },
             "suggest": {
                 "psr/log": "Allows logging deprecations via PSR-3 logger implementation"
@@ -488,9 +542,15 @@
             "homepage": "https://www.doctrine-project.org/",
             "support": {
                 "issues": "https://github.com/doctrine/deprecations/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/doctrine/deprecations/tree/v1.1.1"
             },
             "time": "2023-06-03T09:27:29+00:00"
+=======
+                "source": "https://github.com/doctrine/deprecations/tree/v1.0.0"
+            },
+            "time": "2022-05-02T15:47:09+00:00"
+>>>>>>> 6bc9f37b6ec28a370f2300faf7f504f2227c9a37
         },
         {
             "name": "doctrine/event-manager",
@@ -1562,6 +1622,93 @@
         {
             "name": "intervention/image",
             "version": "2.7.2",
+<<<<<<< HEAD
+=======
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Intervention/image.git",
+                "reference": "04be355f8d6734c826045d02a1079ad658322dad"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/04be355f8d6734c826045d02a1079ad658322dad",
+                "reference": "04be355f8d6734c826045d02a1079ad658322dad",
+                "shasum": ""
+            },
+            "require": {
+                "ext-fileinfo": "*",
+                "guzzlehttp/psr7": "~1.1 || ^2.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.2",
+                "phpunit/phpunit": "^4.8 || ^5.7 || ^7.5.15"
+            },
+            "suggest": {
+                "ext-gd": "to use GD library based image processing.",
+                "ext-imagick": "to use Imagick based image processing.",
+                "intervention/imagecache": "Caching extension for the Intervention Image library"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Intervention\\Image\\ImageServiceProvider"
+                    ],
+                    "aliases": {
+                        "Image": "Intervention\\Image\\Facades\\Image"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Intervention\\Image\\": "src/Intervention/Image"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oliver Vogel",
+                    "email": "oliver@intervention.io",
+                    "homepage": "https://intervention.io/"
+                }
+            ],
+            "description": "Image handling and manipulation library with support for Laravel integration",
+            "homepage": "http://image.intervention.io/",
+            "keywords": [
+                "gd",
+                "image",
+                "imagick",
+                "laravel",
+                "thumbnail",
+                "watermark"
+            ],
+            "support": {
+                "issues": "https://github.com/Intervention/image/issues",
+                "source": "https://github.com/Intervention/image/tree/2.7.2"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/interventionio",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/Intervention",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-05-21T17:30:32+00:00"
+        },
+        {
+            "name": "jaybizzle/crawler-detect",
+            "version": "v1.2.112",
+>>>>>>> 6bc9f37b6ec28a370f2300faf7f504f2227c9a37
             "source": {
                 "type": "git",
                 "url": "https://github.com/Intervention/image.git",
@@ -1781,6 +1928,66 @@
         {
             "name": "laravel-admin-ext/summernote",
             "version": "v1.0.3",
+<<<<<<< HEAD
+=======
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-admin-extensions/summernote.git",
+                "reference": "e9b15cc21f2cc9dc4e60d8994451595046fa71c3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/summernote/zipball/e9b15cc21f2cc9dc4e60d8994451595046fa71c3",
+                "reference": "e9b15cc21f2cc9dc4e60d8994451595046fa71c3",
+                "shasum": ""
+            },
+            "require": {
+                "encore/laravel-admin": "~1.6",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Encore\\Summernote\\SummernoteServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Encore\\Summernote\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "song",
+                    "email": "zsong@126.com"
+                }
+            ],
+            "description": "Summernote extension for laravel-admin",
+            "homepage": "https://github.com/laravel-admin-ext/summernote",
+            "keywords": [
+                "editor",
+                "extension",
+                "laravel-admin"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel-admin-extensions/summernote/issues",
+                "source": "https://github.com/laravel-admin-extensions/summernote/tree/v1.0.3"
+            },
+            "time": "2021-10-20T04:08:14+00:00"
+        },
+        {
+            "name": "laravel/fortify",
+            "version": "v1.16.0",
+>>>>>>> 6bc9f37b6ec28a370f2300faf7f504f2227c9a37
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-admin-extensions/summernote.git",
@@ -4509,7 +4716,86 @@
         },
         {
             "name": "symfony/dom-crawler",
+<<<<<<< HEAD
             "version": "v5.4.23",
+=======
+            "version": "v5.4.19",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/dom-crawler.git",
+                "reference": "224a1820e7669babdd85970230ed72bd6e342ad4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/224a1820e7669babdd85970230ed72bd6e342ad4",
+                "reference": "224a1820e7669babdd85970230ed72bd6e342ad4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/deprecation-contracts": "^2.1|^3",
+                "symfony/polyfill-ctype": "~1.8",
+                "symfony/polyfill-mbstring": "~1.0",
+                "symfony/polyfill-php80": "^1.16"
+            },
+            "conflict": {
+                "masterminds/html5": "<2.6"
+            },
+            "require-dev": {
+                "masterminds/html5": "^2.6",
+                "symfony/css-selector": "^4.4|^5.0|^6.0"
+            },
+            "suggest": {
+                "symfony/css-selector": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\DomCrawler\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Eases DOM navigation for HTML and XML documents",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/dom-crawler/tree/v5.4.19"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-01-14T19:14:44+00:00"
+        },
+        {
+            "name": "symfony/error-handler",
+            "version": "v6.2.5",
+>>>>>>> 6bc9f37b6ec28a370f2300faf7f504f2227c9a37
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
@@ -6658,6 +6944,7 @@
         },
         {
             "name": "unisharp/laravel-filemanager",
+<<<<<<< HEAD
             "version": "v2.6.0",
             "source": {
                 "type": "git",
@@ -6668,16 +6955,36 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/UniSharp/laravel-filemanager/zipball/c3c6ded95fd0cd6ec8a0f53af953a6273b9348c1",
                 "reference": "c3c6ded95fd0cd6ec8a0f53af953a6273b9348c1",
+=======
+            "version": "v2.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/UniSharp/laravel-filemanager.git",
+                "reference": "9e9022747832fb862a15bdafd4e6fdd564f10c82"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/UniSharp/laravel-filemanager/zipball/9e9022747832fb862a15bdafd4e6fdd564f10c82",
+                "reference": "9e9022747832fb862a15bdafd4e6fdd564f10c82",
+>>>>>>> 6bc9f37b6ec28a370f2300faf7f504f2227c9a37
                 "shasum": ""
             },
             "require": {
                 "ext-exif": "*",
                 "ext-fileinfo": "*",
+<<<<<<< HEAD
                 "illuminate/config": "5.4.* || 5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0",
                 "illuminate/container": "5.4.* || 5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0",
                 "illuminate/filesystem": "5.4.* || 5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0",
                 "illuminate/http": "5.4.* || 5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0",
                 "illuminate/support": "5.4.* || 5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0",
+=======
+                "illuminate/config": "5.4.* || 5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0 || ^9.0",
+                "illuminate/container": "5.4.* || 5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0 || ^9.0",
+                "illuminate/filesystem": "5.4.* || 5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0 || ^9.0",
+                "illuminate/http": "5.4.* || 5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0 || ^9.0",
+                "illuminate/support": "5.4.* || 5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0 || ^7.0 || ^8.0 || ^9.0",
+>>>>>>> 6bc9f37b6ec28a370f2300faf7f504f2227c9a37
                 "intervention/image": "2.*",
                 "php": ">=7.2.0"
             },
@@ -6731,9 +7038,15 @@
             ],
             "support": {
                 "issues": "https://github.com/UniSharp/laravel-filemanager/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/UniSharp/laravel-filemanager/tree/v2.6.0"
             },
             "time": "2023-03-01T02:04:57+00:00"
+=======
+                "source": "https://github.com/UniSharp/laravel-filemanager/tree/v2.5.1"
+            },
+            "time": "2022-05-15T11:14:27+00:00"
+>>>>>>> 6bc9f37b6ec28a370f2300faf7f504f2227c9a37
         },
         {
             "name": "vlucas/phpdotenv",
